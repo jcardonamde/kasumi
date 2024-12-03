@@ -1,0 +1,74 @@
+/* Variables de color */
+:root {
+  --background-color: #FBE9DB; /* Fondo principal */
+  --primary-color: #D55672;   /* Botones principales */
+  --secondary-color: #ADF5FF; /* Elementos secundarios */
+  --text-color: #481620;      /* Texto principal */
+  --accent-color: #0075A2;    /* Alertas/Énfasis */
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+/* Form Styles */
+form {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+label {
+  color: var(--accent-color);
+}
+
+input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 4px var(--primary-color);
+}
+
+.is-invalid {
+  border-color: var(--primary-color);
+}
+
+.is-valid {
+  border-color: var(--secondary-color);
+}
+
+.feedback {
+  font-size: 0.9rem;
+  color: var(--accent-color);
+}
+
+button {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+button:disabled {
+  background-color: #6c757d;
+}
+
+button:not(:disabled):hover {
+  background-color: var(--accent-color);
+}
+
+.icon-spa {
+  height: 40px;
+  width: 40px;
+}
+
+.success-registry {
+  color: var(--accent-color);
+}
