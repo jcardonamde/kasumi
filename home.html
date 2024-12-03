@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kasumi Software</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./styles/styles.css">
+</head>
+<body>
+    <nav class="navbar bg-body-tertiary">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="./imgs/logo_kasumi.png" alt="Logo Kasumi" width="130" height="60">
+            </a>
+        </div>
+    </nav>
+    <div class="container my-5"></div>
+          <div class="card mb-5 ms-5 me-5">
+            <img src="./imgs/icono_spa.png" class="card-img-top icon-spa mx-3 mt-4" alt="Icono de Spa">
+          
+            <div class="card-body">
+              <h5 class="card-title">Card title</h5>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <a href="index.html" class="btn btn-primary">Ir al login</a>
+            </div>
+          </div>
+          
+          <div class="card mb-5 ms-5 me-5" aria-hidden="true">
+            <img src="./imgs/icono_spa.png" class="card-img-top icon-spa mx-3 mt-4" alt="Icono de Spa">
+            <div class="card-body">
+              <h5 class="card-title placeholder-glow">
+                <span class="placeholder col-6"></span>
+              </h5>
+              <p class="card-text placeholder-glow">
+                <span class="placeholder col-7"></span>
+                <span class="placeholder col-4"></span>
+                <span class="placeholder col-4"></span>
+                <span class="placeholder col-6"></span>
+                <span class="placeholder col-8"></span>
+              </p>
+              <a class="btn btn-primary disabled placeholder col-6" aria-disabled="true"></a>
+            </div>
+          </div>
+
+          <div class="card mb-5 ms-5 me-5" aria-hidden="true">
+            <img src="./imgs/icono_spa.png" class="card-img-top icon-spa mx-3 mt-4" alt="Icono de Spa">
+            <div class="card-body">
+              <h5 class="card-title placeholder-glow">
+                <span class="placeholder col-6"></span>
+              </h5>
+              <p class="card-text placeholder-glow">
+                <span class="placeholder col-7"></span>
+                <span class="placeholder col-4"></span>
+                <span class="placeholder col-4"></span>
+                <span class="placeholder col-6"></span>
+                <span class="placeholder col-8"></span>
+              </p>
+              <a class="btn btn-primary disabled placeholder col-6" aria-disabled="true"></a>
+            </div>
+          </div>
+    </div>
+
+    <!-- Modal de Bienvenida -->
+    <div class="modal fade" id="successLoginModal" tabindex="-1" aria-labelledby="successLoginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="successLoginModalLabel">D2JL Inc.</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Bienvenido a Kasumi Software
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./javascript/script.js"></script>
+</body>
+</html>
