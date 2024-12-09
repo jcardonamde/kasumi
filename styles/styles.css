@@ -24,7 +24,8 @@ form {
 }
 
 label {
-  color: var(--accent-color);
+  color: var(--text-color);
+  font-weight: bold;
 }
 
 input:focus {

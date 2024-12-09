@@ -27,12 +27,16 @@ if (loginForm) {
     // Verificar si todos los campos están completos
     const usuarioInput = document.getElementById('usuario').value.trim();
     const passwordInput = document.getElementById('password').value.trim();
+    const tipoUsuario = document.getElementById('tipo_usuario').value;
 
-    if (!usuarioInput || !passwordInput) {
+    if (!usuarioInput || !passwordInput || !tipoUsuario) {
       // Mostrar modal de error si los campos están vacíos
       const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
       errorModal.show();
     } else {
+      localStorage.setItem('usuario', usuarioInput);
+      localStorage.setItem('perfil', tipoUsuario);
+
       window.location.href = 'home.html';
     }
   });

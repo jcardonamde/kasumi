@@ -1,0 +1,31 @@
+.container-login_form {
+    align-items: center;
+    background-color: var(--background-color);
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+    max-width: 400px;
+    padding: 20px;
+}
+
+.container-login_form label,
+.container-login_form select,
+.container-login_form input {
+    margin-bottom: 10px;
+    max-width: 300px;
+    text-align: left;
+    width: 100%;
+}
+
+.help-message_user {
+    color: var(--text-color);
+    font-size: 10px;
+}
+
+.help-message_password {
+    color: black;
+    font-size: 12px;
+}
