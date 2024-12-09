@@ -1,0 +1,23 @@
+/* nav-bar.css */
+body {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    min-height: 100vh;
+}
+
+.navbar-home {
+    background-color: var(--accent-color);
+}
+
+.navbar-brand-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.navbar-img {
+    width: 120px;
+    height: 40px;
+    object-fit: cover;
+}
