@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Especialistas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fceadb;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #0775a2;
+            color: white;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        header .logo {
+            font-size: 1.8rem;
+            font-family: 'Brush Script MT', cursive;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #fceadb;
+            border-radius: 5px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .form-actions button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .form-actions .save {
+            background-color: #f26d6f;
+            color: white;;
+        }
+
+        .form-actions .edit {
+            background-color: #f26d6f;
+            color: white;;
+        }
+
+        .form-actions .delete {
+            background-color: #f26d6f;
+            color: white;;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Gestión de Especialistas</h1>
+    </header>
+    <div class="container">
+        <form>
+            <div class="form-group">
+                <label for="id-especialista-buscar">ID Especialista</label>
+                <input type="text" id="id-especialista-buscar" placeholder="Buscar especialista...">
+            </div>
+
+            <div class="form-group">
+                <label for="nombre-completo">Nombre completo</label>
+                <input type="text" id="nombre-completo" placeholder="Ingrese el nombre completo">
+            </div>
+
+            <div class="form-group">
+                <label for="id-especialista">ID Especialista</label>
+                <input type="text" id="id-especialista" placeholder="Ingrese el ID">
+            </div>
+
+            <div class="form-group">
+                <label for="experiencia-laboral">Experiencia Laboral</label>
+                <input type="text" id="experiencia-laboral" placeholder="Años de experiencia">
+            </div>
+
+            <div class="form-group">
+                <label for="tipo-especialidad">Tipo de Especialidad</label>
+                <select id="tipo-especialidad">
+                    <option value="">Seleccione una especialidad</option>
+                    <option value="manicura">Manicura</option>
+                    <option value="pedicura">Pedicura</option>
+                    <option value="nail-art">Podología</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="habilidades-certificaciones">Habilidades y Certificaciones</label>
+                <textarea id="habilidades-certificaciones" rows="4" placeholder="Describa las habilidades y certificaciones"></textarea>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="save">Guardar</button>
+                <button type="button" class="edit">Editar</button>
+                <button type="button" class="delete">Eliminar</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
