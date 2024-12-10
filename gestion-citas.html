@@ -3,13 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>.:: Reportes - Kasumi ::.</title>
+    <title>.:: Gestión de Citas - Kasumi ::.</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./styles/styles.css">
     <link rel="stylesheet" href="./styles/nav-bar.css">
     <link rel="stylesheet" href="./styles/footer.css">
     <style>
-        body {
+    /* Variables de color */
+    :root {
+      --background-color: #FBE9DB; 
+      --primary-color: #D55672;   
+      --secondary-color: #ADF5FF; 
+      --text-color: #481620;      
+      --accent-color: #0075A2;    
+      --header-bg-color: #0075A2; /* Fondo azul para el encabezado */
+    }
+
+    body {
       font-family: Arial, sans-serif;
       background-color: var(--background-color);
       color: var(--text-color);
@@ -17,6 +27,7 @@
       padding: 0;
     }
 
+    /* Encabezado con fondo azul y logo */
     .header {
       background-color: var(--header-bg-color);
       display: flex;
@@ -26,17 +37,27 @@
       color: #fff;
     }
 
+.header img {
+  height: 50px;
+  margin-right: 10px; /* Añade espacio entre el logo y el título */
+}
+
+.header h1 {
+  font-size: 24px;
+  color: #fff;
+  margin: 0;
+  flex-grow: 1; /* Hace que el título ocupe el espacio restante */
+  text-align: center; /* Centra el título dentro de su área */
+}
+
     .header img {
       height: 50px;
-      margin-right: 10px; /* Añade espacio entre el logo y el título */
     }
 
     .header h1 {
       font-size: 24px;
       color: #fff;
       margin: 0;
-      flex-grow: 1; /* Hace que el título ocupe el espacio restante */
-      text-align: center; /* Centra el título dentro de su área */
     }
 
     .container {
@@ -48,9 +69,9 @@
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
-    .form-reportes {
-      display: flex;
-      flex-direction: column;
+    form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 15px;
     }
 
@@ -67,6 +88,7 @@
     }
 
     .actions {
+      grid-column: span 2;
       display: flex;
       justify-content: space-around;
       margin-top: 20px;
@@ -86,40 +108,15 @@
     button:hover {
       background-color: var(--accent-color);
     }
-
-    /* Estilos para la sección de vista previa del reporte */
-    .report-preview {
-      margin-top: 20px;
-      border: 1px solid var(--secondary-color);
-      border-radius: 8px;
-      padding: 20px;
-      background-color: #fff;
-      text-align: center;
-    }
-
-    .report-preview h2 {
-      font-size: 20px;
-      color: var(--text-color);
-      margin-bottom: 20px;
-    }
-
-    .report-preview img {
-      width: 100%; /* La imagen ocupará el 100% del ancho del contenedor */
-      max-width: 100%; /* La imagen no será más grande que su contenedor ya que se salía*/
-      height: auto;
-      border-radius: 8px;
-    }
   </style>
 </head>
-<body>
-
 <body>
     <nav class="navbar fixed-top navbar-home">
         <div class="container-fluid navbar-home">
           <button class="navbar-toggler me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <h1 class="navbar-brand navbar-brand-center text-light fw-semibold">Reportes</h1>
+          <h1 class="navbar-brand navbar-brand-center text-light fw-semibold">Gestión de Citas</h1>
           <a href="./home.html"><img src="./imgs/logo_kasumi_bgblue.png" alt="Logo Kasumi" class="navbar-img ms-auto"></a>
           <div class="offcanvas offcanvas-start text-light" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
             <div class="offcanvas-header navbar-home">
@@ -157,7 +154,6 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link active text-light" href="./index.html">Logout</a>
-
                 </li>
               </ul>
             </div>
@@ -165,32 +161,40 @@
         </div>
     </nav>
 
+    <div class="container mt-5">
+        <form class="mb-3">
+      <label for="document">Número de Documento:</label>
+      <input type="text" id="document" placeholder="Ingresa el número de documento">
 
-  <div class="container">
-    <form class="form-reportes">
-      <label for="tipo-reporte">Tipo de Reporte:</label>
-      <select id="tipo-reporte">
-        <option value="">Selecciona un tipo de reporte</option>
-        <option value="inventarios">Inventarios</option>
-        <option value="ventas">Ventas</option>
-        <option value="ingresos">Ingresos</option>
+      <label for="id-cita">ID Cita:</label>
+      <input type="text" id="id-cita" placeholder="ID de la cita">
+
+      <label for="nombre-cliente">Nombre del Cliente:</label>
+      <input type="text" id="nombre-cliente" placeholder="Nombre del cliente">
+
+      <label for="servicio">Tipo de Servicio:</label>
+      <select id="servicio">
+        <option value="">Selecciona un servicio</option>
+        <option value="manicure">Manicure</option>
+        <option value="pedicure">Pedicure</option>
+        <option value="spa">Spa</option>
       </select>
 
-      <label for="id-relacionado">ID Relacionado:</label>
-      <input type="text" id="id-relacionado" placeholder="Ingresa el ID relacionado">
+      <label for="especialista">Especialista:</label>
+      <input type="text" id="especialista" placeholder="Nombre del especialista">
+
+      <label for="fecha">Fecha de la Cita:</label>
+      <input type="date" id="fecha">
+
+      <label for="hora">Hora de la Cita:</label>
+      <input type="time" id="hora">
 
       <div class="actions">
-        <button type="button">Consultar</button>
-        <button type="button">Imprimir</button>
-        <button type="button">Exportar</button>
+        <button type="submit">Guardar</button>
+        <button type="button">Editar</button>
+        <button type="button">Eliminar</button>
       </div>
     </form>
-
-    <!-- Vista previa del reporte -->
-    <div class="report-preview">
-      <h2>Vista Previa del Reporte</h2>
-      <img src="imgs/plantilla_historial_facturas.png" alt="Vista previa del reporte">
-    </div>
   </div>
     <footer>
         <p>Desarrollado por:</p>
