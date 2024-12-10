@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reportes</title>
+  <style>
+    :root {
+      --background-color: #FBE9DB;
+      --primary-color: #D55672;
+      --secondary-color: #ADF5FF;
+      --text-color: #481620;
+      --accent-color: #0075A2;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--primary-color);
+    }
+
+    .form-reportes {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    label {
+      color: var(--accent-color);
+      font-weight: bold;
+    }
+
+    input, select {
+      padding: 10px;
+      border: 1px solid var(--text-color);
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+    }
+
+    button {
+      background-color: var(--primary-color);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: var(--accent-color);
+    }
+
+    .report-preview {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border: 1px solid var(--text-color);
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Reportes</h1>
+    <form class="form-reportes">
+      <label for="tipo-reporte">Tipo de Reporte:</label>
+      <select id="tipo-reporte">
+        <option value="">Selecciona un tipo de reporte</option>
+        <option value="inventarios">Inventarios</option>
+        <option value="ventas">Ventas</option>
+        <option value="ingresos">Ingresos</option>
+      </select>
+
+      <label for="id-relacionado">ID Relacionado:</label>
+      <input type="text" id="id-relacionado" placeholder="Ingresa el ID relacionado">
+
+      <div class="actions">
+        <button type="button">Consultar</button>
+        <button type="button">Imprimir</button>
+        <button type="button">Exportar</button>
+      </div>
+    </form>
+    <div class="report-preview">
+      <h2>Vista Previa del Reporte</h2>
+      <img src="imgs/plantilla_historial_facturas.png" alt="Vista previa del reporte">
+    </div>
+  </div>
+</body>
+</html>

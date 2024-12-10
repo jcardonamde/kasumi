@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Citas</title>
+  <style> /*  Aquí se agregan los estilos del css */
+    :root {
+      --background-color: #FBE9DB;
+      --primary-color: #D55672;
+      --secondary-color: #ADF5FF;
+      --text-color: #481620;
+      --accent-color: #0075A2;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--primary-color);
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    label {
+      color: var(--accent-color);
+      font-weight: bold;
+    }
+
+    input, select {
+      padding: 10px;
+      border: 1px solid var(--text-color);
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    .actions {
+      grid-column: span 2;
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+    }
+
+    button {
+      background-color: var(--primary-color);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: var(--accent-color);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Gestión de Citas</h1>
+    <form>
+      <label for="document">Número de Documento:</label>
+      <input type="text" id="document" placeholder="Ingresa el número de documento">
+
+      <label for="id-cita">ID Cita:</label>
+      <input type="text" id="id-cita" placeholder="ID de la cita">
+
+      <label for="nombre-cliente">Nombre del Cliente:</label>
+      <input type="text" id="nombre-cliente" placeholder="Nombre del cliente">
+
+      <label for="servicio">Tipo de Servicio:</label>
+      <select id="servicio">
+        <option value="">Selecciona un servicio</option>
+        <option value="manicure">Manicure</option>
+        <option value="pedicure">Pedicure</option>
+        <option value="spa">Spa</option>
+      </select>
+
+      <label for="especialista">Especialista:</label>
+      <input type="text" id="especialista" placeholder="Nombre del especialista">
+
+      <label for="fecha">Fecha de la Cita:</label>
+      <input type="date" id="fecha">
+
+      <label for="hora">Hora de la Cita:</label>
+      <input type="time" id="hora">
+
+      <div class="actions">
+        <button type="submit">Guardar</button>
+        <button type="button">Editar</button>
+        <button type="button">Eliminar</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
