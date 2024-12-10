@@ -4,13 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gestión de Citas</title>
-  <style> /*  Aquí se agregan los estilos del css */
+  <style>
+    /* Variables de color */
     :root {
-      --background-color: #FBE9DB;
-      --primary-color: #D55672;
-      --secondary-color: #ADF5FF;
-      --text-color: #481620;
-      --accent-color: #0075A2;
+      --background-color: #FBE9DB; 
+      --primary-color: #D55672;   
+      --secondary-color: #ADF5FF; 
+      --text-color: #481620;      
+      --accent-color: #0075A2;    
+      --header-bg-color: #0075A2; /* Fondo azul para el encabezado */
     }
 
     body {
@@ -18,21 +20,49 @@
       background-color: var(--background-color);
       color: var(--text-color);
       margin: 0;
-      padding: 20px;
+      padding: 0;
+    }
+
+    /* Encabezado con fondo azul y logo */
+    .header {
+      background-color: var(--header-bg-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      color: #fff;
+    }
+
+.header img {
+  height: 50px;
+  margin-right: 10px; /* Añade espacio entre el logo y el título */
+}
+
+.header h1 {
+  font-size: 24px;
+  color: #fff;
+  margin: 0;
+  flex-grow: 1; /* Hace que el título ocupe el espacio restante */
+  text-align: center; /* Centra el título dentro de su área */
+}
+
+    .header img {
+      height: 50px;
+    }
+
+    .header h1 {
+      font-size: 24px;
+      color: #fff;
+      margin: 0;
     }
 
     .container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 20px;
+      max-width: 900px;
+      margin: 20px auto;
       background-color: #fff;
       border-radius: 8px;
+      padding: 20px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    h1 {
-      text-align: center;
-      color: var(--primary-color);
     }
 
     form {
@@ -77,8 +107,14 @@
   </style>
 </head>
 <body>
-  <div class="container">
+
+  <!-- Encabezado con el logo y el título -->
+  <div class="header">
+    <img src="imgs/logo_kasumi.png" alt="Logo Kasumi">
     <h1>Gestión de Citas</h1>
+  </div>
+
+  <div class="container">
     <form>
       <label for="document">Número de Documento:</label>
       <input type="text" id="document" placeholder="Ingresa el número de documento">
@@ -113,5 +149,6 @@
       </div>
     </form>
   </div>
+
 </body>
 </html>

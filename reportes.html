@@ -6,11 +6,12 @@
   <title>Reportes</title>
   <style>
     :root {
-      --background-color: #FBE9DB;
-      --primary-color: #D55672;
-      --secondary-color: #ADF5FF;
-      --text-color: #481620;
-      --accent-color: #0075A2;
+      --background-color: #FBE9DB; 
+      --primary-color: #D55672;   
+      --secondary-color: #ADF5FF; 
+      --text-color: #481620;      
+      --accent-color: #0075A2;    
+      --header-bg-color: #0075A2; 
     }
 
     body {
@@ -18,21 +19,38 @@
       background-color: var(--background-color);
       color: var(--text-color);
       margin: 0;
-      padding: 20px;
+      padding: 0;
+    }
+
+    .header {
+      background-color: var(--header-bg-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      color: #fff;
+    }
+
+    .header img {
+      height: 50px;
+      margin-right: 10px; /* Añade espacio entre el logo y el título */
+    }
+
+    .header h1 {
+      font-size: 24px;
+      color: #fff;
+      margin: 0;
+      flex-grow: 1; /* Hace que el título ocupe el espacio restante */
+      text-align: center; /* Centra el título dentro de su área */
     }
 
     .container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 20px;
+      max-width: 900px;
+      margin: 20px auto;
       background-color: #fff;
       border-radius: 8px;
+      padding: 20px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    h1 {
-      text-align: center;
-      color: var(--primary-color);
     }
 
     .form-reportes {
@@ -74,22 +92,39 @@
       background-color: var(--accent-color);
     }
 
+    /* Estilos para la sección de vista previa del reporte */
     .report-preview {
       margin-top: 20px;
+      border: 1px solid var(--secondary-color);
+      border-radius: 8px;
+      padding: 20px;
+      background-color: #fff;
       text-align: center;
     }
 
-    img {
-      max-width: 100%;
+    .report-preview h2 {
+      font-size: 20px;
+      color: var(--text-color);
+      margin-bottom: 20px;
+    }
+
+    .report-preview img {
+      width: 100%; /* La imagen ocupará el 100% del ancho del contenedor */
+      max-width: 100%; /* La imagen no será más grande que su contenedor ya que se salía*/
       height: auto;
-      border: 1px solid var(--text-color);
-      border-radius: 5px;
+      border-radius: 8px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
+
+  <!-- Encabezado con el logo y el título -->
+  <div class="header">
+    <img src="imgs/logo_kasumi.png" alt="Logo Kasumi">
     <h1>Reportes</h1>
+  </div>
+
+  <div class="container">
     <form class="form-reportes">
       <label for="tipo-reporte">Tipo de Reporte:</label>
       <select id="tipo-reporte">
@@ -108,10 +143,13 @@
         <button type="button">Exportar</button>
       </div>
     </form>
+
+    <!-- Vista previa del reporte -->
     <div class="report-preview">
       <h2>Vista Previa del Reporte</h2>
       <img src="imgs/plantilla_historial_facturas.png" alt="Vista previa del reporte">
     </div>
   </div>
+
 </body>
 </html>
