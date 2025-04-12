@@ -2,25 +2,33 @@
 html, body {
     height: 100%;
     margin: 0;
-    display: flex;
-    flex-direction: column;
 }
 
-main {
-    flex: 1;
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container, main {
+    flex: 1 0 auto; /* Esto asegura que el contenido principal tome el espacio necesario */
+    width: 100%;
+    margin-bottom: 2rem; /* Espacio entre el contenido y el footer */
 }
 
 footer {
-    background-color: var(--accent-color, #2c3e50);
+    background-color: var(--accent-color);
     color: white;
     text-align: center;
-    padding: 15px 0;
-    margin-top: 40px;
+    padding: 20px 0;
+    width: 100%;
+    flex-shrink: 0; /* Evita que el footer se encoja */
     font-size: 14px;
     border-top: 2px solid #1abc9c;
+    margin-top: auto; /* Empuja el footer hacia abajo */
 }
 
 footer p {
-    margin: 0;
+    margin: 5px 0;
     line-height: 1.5;
 }

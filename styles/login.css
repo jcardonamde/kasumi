@@ -29,3 +29,8 @@
     color: black;
     font-size: 12px;
 }
+
+.help-message_password:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
