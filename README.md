@@ -15,5 +15,5 @@ Ficha Técnica 2977434 <br>
 
 <br>
 
-Para explorar de forma interactiva y funcional el software puede acceder mediante el siguiente enlace: <br>
+Para explorar de forma interactiva y funcional el software, puede acceder mediante el siguiente enlace. La aplicación está adaptada para funcionar tanto en dispositivos de escritorio como en móviles:
 [Visita el proyecto Kasumi](https://jcardonamde.github.io/kasumi/index.html)
