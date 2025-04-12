@@ -13,5 +13,7 @@ Ficha Técnica 2977434 <br>
 
 ![Logo SENA](https://docs.google.com/drawings/d/e/2PACX-1vRHtXZUAI_yYltgXtZnIChIn1CDQyMCtZJLQ8R-5TiVO_IjaDVPsQnYlPEotP63Jz_I06loshw4yA1X/pub?w=50&h=50)
 
+<br>
 
-Para explorar de forma interactiva y funcional el software puede acceder mediante el siguiente enlace: [Visita el proyecto Kasumi](https://jcardonamde.github.io/kasumi/index.html)
+Para explorar de forma interactiva y funcional el software puede acceder mediante el siguiente enlace: <br>
+[Visita el proyecto Kasumi](https://jcardonamde.github.io/kasumi/index.html)
