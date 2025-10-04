@@ -1,0 +1,77 @@
+{% extends "base_login.html" %}
+{% load static %}
+
+{% block title %}Iniciar Sesión - Kasumi{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white text-center">
+                <i class="fas fa-spa fa-2x mb-2"></i>
+                <h4 class="mb-0">Kasumi</h4>
+                <small>Sistema de Gestión</small>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title text-center mb-4">Iniciar Sesión</h5>
+                
+                <form method="post" action="{% url 'accounts:login' %}">
+                    {% csrf_token %}
+                    
+                    {% if form.errors %}
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <strong>Error:</strong> Por favor, ingresa un correo y contraseña correctos.
+                        </div>
+                    {% endif %}
+                    
+                    <div class="mb-3">
+                        <label for="id_username" class="form-label">
+                            <i class="fas fa-envelope me-2"></i>Correo Electrónico
+                        </label>
+                        <input type="email" name="username" id="id_username" 
+                               class="form-control" placeholder="correo@ejemplo.com" required autofocus>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_password" class="form-label">
+                            <i class="fas fa-lock me-2"></i>Contraseña
+                        </label>
+                        <input type="password" name="password" id="id_password" 
+                               class="form-control" placeholder="••••••••" required>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-sign-in-alt me-2"></i> Iniciar Sesión
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-center bg-light">
+                <small class="text-muted">
+                    ¿No tienes una cuenta? <a href="#" class="text-decoration-none">Contacta al administrador</a>
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+    }
+    .card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    .card-header {
+        border-radius: 15px 15px 0 0 !important;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    }
+</style>
+{% endblock %}

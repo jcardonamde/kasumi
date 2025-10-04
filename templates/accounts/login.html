@@ -1,0 +1,118 @@
+{% extends 'base_login.html' %}
+{% load static %}
+
+{% block title %}Iniciar Sesión - Kasumi{% endblock %}
+
+{% block extra_css %}
+<!-- Estilos principales con variables de color -->
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+<!-- Estilos específicos para login -->
+<link rel="stylesheet" href="{% static 'styles/login.css' %}">
+{% endblock %}
+
+
+{% block content %}
+<div class="login-wrapper">
+    <div class="container-login_form mt-3">
+        <div class="text-center mb-2">
+            <img src="{% static 'imgs/logo_kasumi.png' %}" alt="Logo Kasumi" class="mb-4">
+            <h2 class="h4">Login</h2>
+        </div>
+        
+        <form method="post" action="{% url 'accounts:login' %}" class="needs-validation" novalidate>
+            {% csrf_token %}
+            
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+            <label for="id_username">Correo Electrónico</label>
+            <input type="email" name="username" id="id_username" 
+                   placeholder="correo@ejemplo.com" required autofocus>
+            <div class="help-message_user">
+                Ingresa tu correo electrónico registrado
+            </div>
+            
+            <label for="id_password">Contraseña</label>
+            <input type="password" name="password" id="id_password" 
+                   placeholder="••••••••" required>
+            <div class="help-message_password">
+                ¿Olvidaste tu contraseña?
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-lg w-100 mt-3">
+                <i class="fas fa-sign-in-alt me-2"></i> Iniciar Sesión
+            </button>
+            
+            <div class="text-center mt-3">
+                <p class="mb-0 help-message_user">¿No tienes una cuenta? <a href="#" class="text-decoration-none help-message_create_user">Contacta al administrador</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Footer semántico -->
+<footer class="login-footer">
+    <div class="container text-center">
+        <p class="mb-0">© 2025 Kasumi - Sistema de Gestión.</p>
+        <p class="mb-0 small">Desarrollado por D2JL Inc ®</p>
+    </div>
+</footer>
+{% endblock %}
+
+{% block extra_js %}
+<!-- JavaScript específico para login -->
+<script src="{% static 'js/login.js' %}"></script>
+
+<!-- Script de emergencia para auto-remover errores -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Verificar si ya se procesó para evitar duplicados
+    if (window.errorAutoRemoveProcessed) {
+        return;
+    }
+    
+    setTimeout(function() {
+        const serverErrors = document.querySelectorAll('.alert-danger');
+        
+        if (serverErrors.length === 0) {
+            return;
+        }
+        
+        // Marcar como procesado
+        window.errorAutoRemoveProcessed = true;
+        
+        serverErrors.forEach(function(errorAlert) {
+            // Verificar si ya tiene el texto informativo
+            if (errorAlert.querySelector('small')) {
+                return;
+            }
+            
+            // Agregar texto informativo
+            const infoText = document.createElement('small');
+            infoText.style.cssText = 'display: block; margin-top: 8px; opacity: 0.7; font-style: italic;';
+            infoText.textContent = 'Este mensaje se cerrará en 5 segundos';
+            errorAlert.appendChild(infoText);
+            
+            // Auto-remover después de 5 segundos
+            setTimeout(function() {
+                if (errorAlert && errorAlert.parentNode) {
+                    errorAlert.style.transition = 'opacity 0.5s ease';
+                    errorAlert.style.opacity = '0';
+                    
+                    setTimeout(function() {
+                        if (errorAlert && errorAlert.parentNode) {
+                            errorAlert.remove();
+                        }
+                    }, 500);
+                }
+            }, 5000);
+        });
+    }, 100);
+});
+</script>
+{% endblock %}

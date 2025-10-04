@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio - Kasumi{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Bienvenido, {{ user.get_full_name|default:user.username }}</h4>
+            </div>
+            <div class="card-body">
+                <p class="lead">Has iniciado sesión correctamente en el sistema de gestión Kasumi.</p>
+                
+                {% if user.is_staff %}
+                <div class="mt-4">
+                    <h5>Acciones rápidas:</h5>
+                    <div class="d-flex gap-2 mt-3">
+                        <a href="{% url 'gestion_usuarios:lista_usuarios' %}" class="btn btn-primary">
+                            <i class="fas fa-users"></i> Gestionar Usuarios
+                        </a>
+                        <a href="{% url 'accounts:perfil' %}" class="btn btn-outline-primary">
+                            <i class="fas fa-user"></i> Ver Perfil
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+
+                <p>Hola Mundo</p>
+                
+                <div class="mt-4 pt-3 border-top">
+                    <a href="{% url 'accounts:logout' %}" class="btn btn-danger">
+                        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
