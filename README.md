@@ -32,7 +32,7 @@ Kasumi es un **sistema web profesional** desarrollado con **Django 5.0** que pro
 - ✅ Login seguro con sistema de sesiones de Django
 - ✅ Logout con confirmación
 - ✅ Cambio de contraseña para usuarios
-- ✅ Mensajes de error auto-removibles (7 segundos)
+- ✅ Mensajes de error auto-removibles (5 segundos)
 - ✅ Modales elegantes para recuperación de contraseña
 - ✅ Protección de rutas con decoradores `@login_required`
 - ✅ Validación de permisos por rol
@@ -294,7 +294,7 @@ python manage.py runserver
 - [x] Diseño responsive con Bootstrap 5
 - [x] Navbar con menú desplegable
 - [x] Breadcrumbs de navegación
-- [x] Mensajes toast auto-removibles (7s)
+- [x] Mensajes toast auto-removibles (5s)
 - [x] Modales elegantes
 - [x] Iconografía con Font Awesome
 - [x] Animaciones CSS suaves
