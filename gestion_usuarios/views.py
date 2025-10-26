@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.db.models import Q
 
 from .models import Rol, UsuarioRol, HistorialUsuario
-from .forms import RolForm, AsignarRolForm, CambiarContrasenaForm, RestablecerContrasenaForm
+from .forms import RolForm, AsignarRolForm, CambiarContrasenaForm, RestablecerContrasenaForm, UsuarioForm
 from accounts.models import Usuario
 
 
@@ -138,6 +138,81 @@ class ListaUsuariosView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context['titulo'] = _('Gestión de Usuarios')
         context['busqueda'] = self.request.GET.get('busqueda', '')
         return context
+
+
+class CrearUsuarioView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    """Vista para crear un nuevo usuario."""
+    model = Usuario
+    form_class = UsuarioForm
+    template_name = 'gestion_usuarios/usuarios/form_usuario.html'
+    success_url = reverse_lazy('gestion_usuarios:lista_usuarios')
+    
+    def test_func(self):
+        return self.request.user.is_staff
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['is_new'] = True
+        return kwargs
+    
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, _('Usuario creado correctamente.'))
+        return response
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = _('Crear Nuevo Usuario')
+        context['accion'] = _('Crear')
+        return context
+
+
+class EditarUsuarioView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    """Vista para editar un usuario existente."""
+    model = Usuario
+    form_class = UsuarioForm
+    template_name = 'gestion_usuarios/usuarios/form_usuario.html'
+    success_url = reverse_lazy('gestion_usuarios:lista_usuarios')
+    
+    def test_func(self):
+        return self.request.user.is_staff
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['is_new'] = False
+        return kwargs
+    
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, _('Usuario actualizado correctamente.'))
+        return response
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = _('Editar Usuario')
+        context['accion'] = _('Actualizar')
+        return context
+
+
+class EliminarUsuarioView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    """Vista para eliminar un usuario."""
+    model = Usuario
+    template_name = 'gestion_usuarios/usuarios/eliminar_usuario.html'
+    success_url = reverse_lazy('gestion_usuarios:lista_usuarios')
+    
+    def test_func(self):
+        return self.request.user.is_staff
+    
+    def delete(self, request, *args, **kwargs):
+        usuario = self.get_object()
+        
+        # No permitir que un usuario se elimine a sí mismo
+        if usuario == request.user:
+            messages.error(request, _('No puedes eliminar tu propio usuario.'))
+            return redirect('gestion_usuarios:lista_usuarios')
+        
+        messages.success(request, _('Usuario eliminado correctamente.'))
+        return super().delete(request, *args, **kwargs)
 
 
 class DetalleUsuarioView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
