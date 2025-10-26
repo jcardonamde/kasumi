@@ -1,40 +1,224 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Inicio - Kasumi{% endblock %}
 
+{% block extra_css %}
+<style>
+    .welcome-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 15px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+    }
+    .menu-card {
+        transition: all 0.3s ease;
+        border: none;
+        border-radius: 10px;
+        height: 100%;
+    }
+    .menu-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .menu-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+    .menu-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+    .menu-description {
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+    .stats-card {
+        border-left: 4px solid;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="row">
+<!-- Bienvenida -->
+<div class="welcome-card">
+    <div class="row align-items-center">
+        <div class="col-md-8">
+            <h2 class="mb-2">¡Bienvenido a Kasumi!</h2>
+            <p class="mb-0 lead">Hola, {{ user.get_full_name|default:user.email }}! Has iniciado sesión como 
+                {% if user.is_superuser %}
+                    <span class="badge bg-danger">Administrador</span>
+                {% elif user.is_staff %}
+                    <span class="badge bg-warning">Administrador</span>
+                {% else %}
+                    <span class="badge bg-info">Usuario</span>
+                {% endif %}
+            </p>
+        </div>
+        <div class="col-md-4 text-md-end">
+            <img src="{% static 'imgs/logo_kasumi_bgblue.png' %}" alt="Kasumi" style="max-height: 80px;" onerror="this.style.display='none'">
+        </div>
+    </div>
+</div>
+
+{% if user.is_staff %}
+<!-- Menú Principal de Gestión -->
+<div class="row mb-4">
+    <div class="col-12">
+        <h4 class="mb-3"><i class="fas fa-th-large me-2"></i>Módulos de Gestión</h4>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <!-- Gestión de Roles -->
+    <div class="col-md-6 col-lg-4">
+        <a href="{% url 'gestion_usuarios:lista_roles' %}" class="text-decoration-none" onclick="alert('Módulo en desarrollo'); return false;">
+            <div class="card menu-card">
+                <div class="card-body text-center">
+                    <div class="menu-icon text-primary">
+                        <i class="fas fa-user-tag"></i>
+                    </div>
+                    <h5 class="menu-title">Gestión de Roles</h5>
+                    <p class="menu-description">Administrar roles y permisos del sistema</p>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Gestión de Usuarios -->
+    <div class="col-md-6 col-lg-4">
+        <a href="{% url 'gestion_usuarios:lista_usuarios' %}" class="text-decoration-none">
+            <div class="card menu-card">
+                <div class="card-body text-center">
+                    <div class="menu-icon text-success">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h5 class="menu-title">Gestión de Usuarios</h5>
+                    <p class="menu-description">Crear y administrar usuarios del sistema</p>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Gestión de Servicios -->
+    <div class="col-md-6 col-lg-4">
+        <a href="#" class="text-decoration-none" onclick="alert('Módulo en desarrollo'); return false;">
+            <div class="card menu-card">
+                <div class="card-body text-center">
+                    <div class="menu-icon text-info">
+                        <i class="fas fa-concierge-bell"></i>
+                    </div>
+                    <h5 class="menu-title">Gestión de Servicios</h5>
+                    <p class="menu-description">Administrar servicios del spa</p>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Gestión de Especialistas -->
+    <div class="col-md-6 col-lg-4">
+        <a href="#" class="text-decoration-none" onclick="alert('Módulo en desarrollo'); return false;">
+            <div class="card menu-card">
+                <div class="card-body text-center">
+                    <div class="menu-icon text-warning">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <h5 class="menu-title">Gestión de Especialistas</h5>
+                    <p class="menu-description">Administrar especialistas y sus horarios</p>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Gestión de Agenda -->
+    <div class="col-md-6 col-lg-4">
+        <a href="#" class="text-decoration-none" onclick="alert('Módulo en desarrollo'); return false;">
+            <div class="card menu-card">
+                <div class="card-body text-center">
+                    <div class="menu-icon text-danger">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h5 class="menu-title">Gestión de Agenda</h5>
+                    <p class="menu-description">Configurar disponibilidad y horarios</p>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Gestión de Clientes -->
+    <div class="col-md-6 col-lg-4">
+        <a href="#" class="text-decoration-none" onclick="alert('Módulo en desarrollo'); return false;">
+            <div class="card menu-card">
+                <div class="card-body text-center">
+                    <div class="menu-icon text-purple">
+                        <i class="fas fa-address-book"></i>
+                    </div>
+                    <h5 class="menu-title">Gestión de Clientes</h5>
+                    <p class="menu-description">Administrar base de datos de clientes</p>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<!-- Opciones Adicionales (Dropdown) -->
+<div class="row mb-4">
     <div class="col-12">
         <div class="card">
-            <div class="card-header bg-primary text-white">
-                <h4 class="mb-0">Bienvenido, {{ user.get_full_name|default:user.username }}</h4>
+            <div class="card-header bg-light">
+                <h5 class="mb-0">
+                    <button class="btn btn-link text-decoration-none text-dark w-100 text-start" 
+                            type="button" 
+                            data-bs-toggle="collapse" 
+                            data-bs-target="#opcionesAdicionales">
+                        <i class="fas fa-ellipsis-h me-2"></i>Opciones Adicionales
+                        <i class="fas fa-chevron-down float-end"></i>
+                    </button>
+                </h5>
             </div>
-            <div class="card-body">
-                <p class="lead">Has iniciado sesión correctamente en el sistema de gestión Kasumi.</p>
-                
-                {% if user.is_staff %}
-                <div class="mt-4">
-                    <h5>Acciones rápidas:</h5>
-                    <div class="d-flex gap-2 mt-3">
-                        <a href="{% url 'gestion_usuarios:lista_usuarios' %}" class="btn btn-primary">
-                            <i class="fas fa-users"></i> Gestionar Usuarios
-                        </a>
-                        <a href="{% url 'accounts:perfil' %}" class="btn btn-outline-primary">
-                            <i class="fas fa-user"></i> Ver Perfil
-                        </a>
+            <div class="collapse" id="opcionesAdicionales">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <a href="#" class="btn btn-outline-primary w-100" onclick="alert('Módulo en desarrollo'); return false;">
+                                <i class="fas fa-calendar-check me-2"></i>Gestión de Citas
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="#" class="btn btn-outline-info w-100" onclick="alert('Módulo en desarrollo'); return false;">
+                                <i class="fas fa-chart-bar me-2"></i>Reportes
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="#" class="btn btn-outline-secondary w-100" onclick="alert('Módulo en desarrollo'); return false;">
+                                <i class="fas fa-cog me-2"></i>Configuraciones
+                            </a>
+                        </div>
                     </div>
                 </div>
-                {% endif %}
-
-                <p>Hola Mundo</p>
-                
-                <div class="mt-4 pt-3 border-top">
-                    <a href="{% url 'accounts:logout' %}" class="btn btn-danger">
-                        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<!-- Vista para usuarios no administradores -->
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <div class="card">
+            <div class="card-body text-center py-5">
+                <i class="fas fa-user-circle fa-5x text-primary mb-3"></i>
+                <h4>Panel de Usuario</h4>
+                <p class="text-muted">Bienvenido al sistema de gestión Kasumi</p>
+                <div class="d-grid gap-2 mt-4">
+                    <a href="{% url 'accounts:perfil' %}" class="btn btn-primary">
+                        <i class="fas fa-id-card me-2"></i>Ver Mi Perfil
                     </a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+{% endif %}
 {% endblock %}
