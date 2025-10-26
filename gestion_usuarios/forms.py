@@ -23,7 +23,8 @@ class RolForm(forms.ModelForm):
             'descripcion': forms.Textarea(attrs={
                 'class': 'form-control',
                 'rows': 3,
-                'placeholder': _('Descripción detallada del rol y sus funciones')
+                'placeholder': _('Descripción detallada del rol y sus funciones'),
+                'style': 'resize: none;'
             }),
             'estado': forms.Select(attrs={'class': 'form-select'}),
         }
@@ -135,7 +136,8 @@ class UsuarioForm(forms.ModelForm):
             'direccion': forms.Textarea(attrs={
                 'class': 'form-control',
                 'rows': 2,
-                'placeholder': _('Dirección completa')
+                'placeholder': _('Dirección completa'),
+                'style': 'resize: none;'
             }),
             'ciudad': forms.TextInput(attrs={
                 'class': 'form-control',
