@@ -57,10 +57,41 @@
                     </li>
                     
                     {% if user.is_staff %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'gestion_usuarios:lista_usuarios' %}">
-                            <i class="fas fa-users-cog me-1"></i> Usuarios
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="gestionDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-cogs me-1"></i> Gestión
                         </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" onclick="alert('Módulo en desarrollo'); return false;">
+                                <i class="fas fa-user-tag me-2"></i> Roles
+                            </a></li>
+                            <li><a class="dropdown-item" href="{% url 'gestion_usuarios:lista_usuarios' %}">
+                                <i class="fas fa-users me-2"></i> Usuarios
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" onclick="alert('Módulo en desarrollo'); return false;">
+                                <i class="fas fa-concierge-bell me-2"></i> Servicios
+                            </a></li>
+                            <li><a class="dropdown-item" href="#" onclick="alert('Módulo en desarrollo'); return false;">
+                                <i class="fas fa-user-md me-2"></i> Especialistas
+                            </a></li>
+                            <li><a class="dropdown-item" href="#" onclick="alert('Módulo en desarrollo'); return false;">
+                                <i class="fas fa-calendar-alt me-2"></i> Agenda
+                            </a></li>
+                            <li><a class="dropdown-item" href="#" onclick="alert('Módulo en desarrollo'); return false;">
+                                <i class="fas fa-address-book me-2"></i> Clientes
+                            </a></li>
+                            <li><a class="dropdown-item" href="#" onclick="alert('Módulo en desarrollo'); return false;">
+                                <i class="fas fa-calendar-check me-2"></i> Citas
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" onclick="alert('Módulo en desarrollo'); return false;">
+                                <i class="fas fa-chart-bar me-2"></i> Reportes
+                            </a></li>
+                            <li><a class="dropdown-item" href="#" onclick="alert('Módulo en desarrollo'); return false;">
+                                <i class="fas fa-cog me-2"></i> Configuraciones
+                            </a></li>
+                        </ul>
                     </li>
                     {% endif %}
                 </ul>
