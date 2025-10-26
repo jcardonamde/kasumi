@@ -153,13 +153,13 @@
                 return new bootstrap.Tooltip(tooltipTriggerEl);
             });
             
-            // Auto-dismiss para alertas después de 7 segundos
+            // Auto-dismiss para alertas después de 5 segundos
             var alerts = document.querySelectorAll('.alert.auto-dismiss');
             alerts.forEach(function(alert) {
                 setTimeout(function() {
                     var bsAlert = new bootstrap.Alert(alert);
                     bsAlert.close();
-                }, 7000); // 7 segundos
+                }, 5000); // 5 segundos
             });
         });
     </script>
