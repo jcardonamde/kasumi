@@ -8,70 +8,6 @@ Después de aplicar las migraciones del módulo `gestion_usuarios`, se han resta
 
 ---
 
-## 📝 Archivos Modificados
-
-### 1. `templates/gestion_usuarios/usuarios/detalle_usuario.html`
-**Cambio:** Descomentada la sección de "Roles Asignados"
-
-**Funcionalidad restaurada:**
-- ✅ Muestra los roles asignados al usuario
-- ✅ Botón "Asignar Rol" funcional
-- ✅ Botón para quitar roles
-- ✅ Muestra fecha de asignación y quién lo asignó
-
----
-
-### 2. `templates/accounts/perfil.html`
-**Cambio:** Restaurada la sección de "Mis Roles"
-
-**Funcionalidad restaurada:**
-- ✅ Muestra los roles del usuario logueado
-- ✅ Muestra descripción de cada rol
-- ✅ Solo visible para usuarios administradores
-
----
-
-### 3. `templates/core/home.html`
-**Cambio:** Habilitado el enlace de "Gestión de Roles"
-
-**Antes:**
-```html
-<a href="{% url 'gestion_usuarios:lista_roles' %}" onclick="alert('Módulo en desarrollo'); return false;">
-```
-
-**Después:**
-```html
-<a href="{% url 'gestion_usuarios:lista_roles' %}">
-```
-
-**Resultado:**
-- ✅ Click en "Gestión de Roles" ahora lleva a la lista de roles
-- ✅ No muestra más el alert de "Módulo en desarrollo"
-
----
-
-### 4. `templates/base.html`
-**Cambio:** Habilitado el enlace de "Roles" en el navbar
-
-**Antes:**
-```html
-<a class="dropdown-item" href="#" onclick="alert('Módulo en desarrollo'); return false;">
-    <i class="fas fa-user-tag me-2"></i> Roles
-</a>
-```
-
-**Después:**
-```html
-<a class="dropdown-item" href="{% url 'gestion_usuarios:lista_roles' %}">
-    <i class="fas fa-user-tag me-2"></i> Roles
-</a>
-```
-
-**Resultado:**
-- ✅ Menú desplegable "Gestión" → "Roles" ahora funcional
-
----
-
 ## 🎯 Funcionalidades Completas Ahora Disponibles
 
 ### Gestión de Roles:
@@ -161,30 +97,6 @@ Los roles incluyen los siguientes permisos configurables:
 ### Usuario ve sus Roles:
 1. Mi Perfil
 2. Sección "Mis Roles" muestra todos los roles asignados
-
----
-
-## 📋 Commits Sugeridos
-
-### Commit 1: Restaurar funcionalidad de roles en templates
-```bash
-git add templates/gestion_usuarios/usuarios/detalle_usuario.html
-git add templates/accounts/perfil.html
-git commit -m "feat: restaurar sección de roles en detalles y perfil después de aplicar migraciones"
-```
-
-### Commit 2: Habilitar enlaces de gestión de roles
-```bash
-git add templates/core/home.html
-git add templates/base.html
-git commit -m "feat: habilitar enlaces de gestión de roles en home y navbar"
-```
-
-### Commit 3: Documentación
-```bash
-git add docs/ACTIVACION_MODULO_ROLES.md
-git commit -m "docs: agregar documentación de activación del módulo de roles"
-```
 
 ---
 

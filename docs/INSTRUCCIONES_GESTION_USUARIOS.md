@@ -154,16 +154,6 @@ Todos los datos se almacenan en `db.sqlite3`:
 - ✅ Las contraseñas se almacenan hasheadas
 - ✅ Validación de permisos en todas las vistas
 
-## Próximos Pasos Sugeridos
-
-1. **Implementar módulo de Servicios**
-2. **Implementar módulo de Especialistas**
-3. **Implementar módulo de Clientes**
-4. **Implementar módulo de Agenda**
-5. **Implementar módulo de Citas**
-6. **Implementar módulo de Reportes**
-7. **Implementar módulo de Configuraciones**
-
 ## Notas Técnicas
 
 - Framework: Django 4.x
@@ -172,10 +162,3 @@ Todos los datos se almacenan en `db.sqlite3`:
 - Iconos: Font Awesome 6.4.0
 - Autenticación: Django Auth con modelo de usuario personalizado
 - Modelo de usuario: `accounts.Usuario` (usa email como username)
-
-## Soporte
-
-Para cualquier duda o problema, revisar:
-1. Los logs del servidor Django
-2. La consola del navegador (F12)
-3. Los mensajes de error en pantalla
