@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Detalles del Usuario - Kasumi{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'gestion_usuarios:lista_usuarios' %}">Usuarios</a></li>
+                <li class="breadcrumb-item active">Detalles</li>
+            </ol>
+        </nav>
+        <div class="d-flex justify-content-between align-items-center">
+            <h2><i class="fas fa-user me-2"></i>Detalles del Usuario</h2>
+            {% if user.is_staff %}
+            <div class="btn-group">
+                <a href="{% url 'gestion_usuarios:editar_usuario' usuario_detalle.pk %}" class="btn btn-primary">
+                    <i class="fas fa-edit me-1"></i> Editar
+                </a>
+                {% if usuario_detalle != user %}
+                <a href="{% url 'gestion_usuarios:eliminar_usuario' usuario_detalle.pk %}" class="btn btn-danger">
+                    <i class="fas fa-trash me-1"></i> Eliminar
+                </a>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <!-- Información Personal -->
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-user me-2"></i>Información Personal</h5>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="text-muted small">Nombres</label>
+                        <p class="fw-bold">{{ usuario_detalle.first_name }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="text-muted small">Apellidos</label>
+                        <p class="fw-bold">{{ usuario_detalle.last_name }}</p>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="text-muted small">Tipo de Documento</label>
+                        <p><span class="badge bg-secondary">{{ usuario_detalle.get_tipo_documento_display }}</span></p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="text-muted small">Número de Documento</label>
+                        <p class="fw-bold">{{ usuario_detalle.numero_documento }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="text-muted small">Fecha de Nacimiento</label>
+                        <p>{{ usuario_detalle.fecha_nacimiento|date:"d/m/Y"|default:"-" }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Información de Contacto -->
+        <div class="card mb-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="fas fa-address-book me-2"></i>Información de Contacto</h5>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="text-muted small">Correo Electrónico</label>
+                        <p><i class="fas fa-envelope me-2"></i>{{ usuario_detalle.email }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="text-muted small">Teléfono</label>
+                        <p><i class="fas fa-phone me-2"></i>{{ usuario_detalle.telefono|default:"-" }}</p>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-8">
+                        <label class="text-muted small">Dirección</label>
+                        <p>{{ usuario_detalle.direccion|default:"-" }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="text-muted small">Ciudad</label>
+                        <p>{{ usuario_detalle.ciudad|default:"-" }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Roles Asignados -->
+        {% if user.is_staff %}
+        <div class="card mb-4">
+            <div class="card-header bg-warning">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-user-tag me-2"></i>Roles Asignados</h5>
+                    <a href="{% url 'gestion_usuarios:asignar_rol' usuario_detalle.pk %}" class="btn btn-sm btn-dark">
+                        <i class="fas fa-plus me-1"></i> Asignar Rol
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                {% if usuario_detalle.roles_asignados.all %}
+                <div class="list-group">
+                    {% for asignacion in usuario_detalle.roles_asignados.all %}
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-1">{{ asignacion.rol.nombre }}</h6>
+                            <small class="text-muted">
+                                Asignado el {{ asignacion.fecha_asignacion|date:"d/m/Y" }}
+                                {% if asignacion.asignado_por %}
+                                por {{ asignacion.asignado_por.get_full_name }}
+                                {% endif %}
+                            </small>
+                        </div>
+                        <a href="{% url 'gestion_usuarios:quitar_rol' asignacion.pk %}" 
+                           class="btn btn-sm btn-outline-danger">
+                            <i class="fas fa-times"></i>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-muted mb-0">No tiene roles asignados.</p>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="col-lg-4">
+        <!-- Estado y Permisos -->
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="fas fa-shield-alt me-2"></i>Estado y Permisos</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="text-muted small">Estado</label>
+                    <p>
+                        {% if usuario_detalle.is_active %}
+                            <span class="badge bg-success">Activo</span>
+                        {% else %}
+                            <span class="badge bg-danger">Inactivo</span>
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="mb-3">
+                    <label class="text-muted small">Tipo de Usuario</label>
+                    <p>
+                        {% if usuario_detalle.is_superuser %}
+                            <span class="badge bg-danger">Superusuario</span>
+                        {% elif usuario_detalle.is_staff %}
+                            <span class="badge bg-warning">Administrador</span>
+                        {% else %}
+                            <span class="badge bg-info">Usuario Regular</span>
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="mb-3">
+                    <label class="text-muted small">Fecha de Registro</label>
+                    <p>{{ usuario_detalle.date_joined|date:"d/m/Y H:i" }}</p>
+                </div>
+                <div>
+                    <label class="text-muted small">Último Acceso</label>
+                    <p>{{ usuario_detalle.last_login|date:"d/m/Y H:i"|default:"Nunca" }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Acciones Rápidas -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-bolt me-2"></i>Acciones Rápidas</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    {% if user == usuario_detalle or user.is_staff %}
+                    <a href="{% url 'gestion_usuarios:cambiar_contrasena' usuario_detalle.pk %}" 
+                       class="btn btn-outline-primary">
+                        <i class="fas fa-key me-2"></i> Cambiar Contraseña
+                    </a>
+                    {% endif %}
+                    <a href="{% url 'gestion_usuarios:lista_usuarios' %}" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-2"></i> Volver al Listado
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

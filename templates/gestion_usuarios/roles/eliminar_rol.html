@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Eliminar Rol - Kasumi{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'gestion_usuarios:lista_roles' %}">Roles</a></li>
+                <li class="breadcrumb-item active">Eliminar Rol</li>
+            </ol>
+        </nav>
+        <h2><i class="fas fa-user-times me-2 text-danger"></i>Eliminar Rol</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6 mx-auto">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i>Confirmación de Eliminación</h5>
+            </div>
+            <div class="card-body">
+                <p class="lead">¿Está seguro que desea eliminar el siguiente rol?</p>
+                
+                <div class="alert alert-warning">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <strong>Advertencia:</strong> Esta acción no se puede deshacer.
+                </div>
+
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h6 class="card-title">Información del Rol</h6>
+                        <ul class="list-unstyled mb-0">
+                            <li><strong>Nombre:</strong> {{ object.nombre }}</li>
+                            <li><strong>Descripción:</strong> {{ object.descripcion|default:"-" }}</li>
+                            <li><strong>Estado:</strong> 
+                                {% if object.esta_activo %}
+                                    <span class="badge bg-success">Activo</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Inactivo</span>
+                                {% endif %}
+                            </li>
+                            <li><strong>Usuarios asignados:</strong> {{ object.usuarios_asignados.count }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="d-flex gap-2 justify-content-end">
+                        <a href="{% url 'gestion_usuarios:lista_roles' %}" class="btn btn-secondary">
+                            <i class="fas fa-times me-1"></i> Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash me-1"></i> Sí, Eliminar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
