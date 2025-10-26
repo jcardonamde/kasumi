@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Quitar Rol - Kasumi{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'gestion_usuarios:lista_usuarios' %}">Usuarios</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'gestion_usuarios:detalle_usuario' object.usuario.pk %}">{{ object.usuario.get_full_name }}</a></li>
+                <li class="breadcrumb-item active">Quitar Rol</li>
+            </ol>
+        </nav>
+        <h2><i class="fas fa-user-times me-2 text-danger"></i>Quitar Rol</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6 mx-auto">
+        <div class="card border-warning">
+            <div class="card-header bg-warning">
+                <h5 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i>Confirmación</h5>
+            </div>
+            <div class="card-body">
+                <p class="lead">¿Está seguro que desea quitar este rol del usuario?</p>
+
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h6 class="card-title">Información</h6>
+                        <ul class="list-unstyled mb-0">
+                            <li><strong>Usuario:</strong> {{ object.usuario.get_full_name }}</li>
+                            <li><strong>Rol:</strong> {{ object.rol.nombre }}</li>
+                            <li><strong>Asignado el:</strong> {{ object.fecha_asignacion|date:"d/m/Y" }}</li>
+                            {% if object.asignado_por %}
+                            <li><strong>Asignado por:</strong> {{ object.asignado_por.get_full_name }}</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="d-flex gap-2 justify-content-end">
+                        <a href="{% url 'gestion_usuarios:detalle_usuario' object.usuario.pk %}" class="btn btn-secondary">
+                            <i class="fas fa-times me-1"></i> Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-warning">
+                            <i class="fas fa-trash me-1"></i> Sí, Quitar Rol
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

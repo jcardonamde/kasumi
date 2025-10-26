@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ titulo }} - Kasumi{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'gestion_usuarios:lista_roles' %}">Roles</a></li>
+                <li class="breadcrumb-item active">{{ titulo }}</li>
+            </ol>
+        </nav>
+        <h2><i class="fas fa-user-tag me-2"></i>{{ titulo }}</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="card">
+            <div class="card-body">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    
+                    {% if form.non_field_errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form.non_field_errors }}
+                    </div>
+                    {% endif %}
+
+                    <!-- Información Básica -->
+                    <h5 class="mb-3 text-primary">
+                        <i class="fas fa-info-circle me-2"></i>Información Básica
+                    </h5>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="{{ form.nombre.id_for_label }}" class="form-label">
+                                {{ form.nombre.label }} <span class="text-danger">*</span>
+                            </label>
+                            {{ form.nombre }}
+                            {% if form.nombre.errors %}
+                                <div class="invalid-feedback d-block">{{ form.nombre.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            <label for="{{ form.estado.id_for_label }}" class="form-label">
+                                {{ form.estado.label }} <span class="text-danger">*</span>
+                            </label>
+                            {{ form.estado }}
+                            {% if form.estado.errors %}
+                                <div class="invalid-feedback d-block">{{ form.estado.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.descripcion.id_for_label }}" class="form-label">
+                            {{ form.descripcion.label }}
+                        </label>
+                        {{ form.descripcion }}
+                        {% if form.descripcion.errors %}
+                            <div class="invalid-feedback d-block">{{ form.descripcion.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Permisos de Usuarios -->
+                    <h5 class="mb-3 mt-4 text-primary">
+                        <i class="fas fa-users me-2"></i>Permisos de Gestión de Usuarios
+                    </h5>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                {{ form.puede_ver_usuarios }}
+                                <label class="form-check-label" for="{{ form.puede_ver_usuarios.id_for_label }}">
+                                    {{ form.puede_ver_usuarios.label }}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                {{ form.puede_crear_usuarios }}
+                                <label class="form-check-label" for="{{ form.puede_crear_usuarios.id_for_label }}">
+                                    {{ form.puede_crear_usuarios.label }}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                {{ form.puede_editar_usuarios }}
+                                <label class="form-check-label" for="{{ form.puede_editar_usuarios.id_for_label }}">
+                                    {{ form.puede_editar_usuarios.label }}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                {{ form.puede_eliminar_usuarios }}
+                                <label class="form-check-label" for="{{ form.puede_eliminar_usuarios.id_for_label }}">
+                                    {{ form.puede_eliminar_usuarios.label }}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Otros Permisos -->
+                    <h5 class="mb-3 mt-4 text-primary">
+                        <i class="fas fa-shield-alt me-2"></i>Otros Permisos
+                    </h5>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                {{ form.puede_ver_reportes }}
+                                <label class="form-check-label" for="{{ form.puede_ver_reportes.id_for_label }}">
+                                    {{ form.puede_ver_reportes.label }}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                {{ form.puede_ver_configuracion }}
+                                <label class="form-check-label" for="{{ form.puede_ver_configuracion.id_for_label }}">
+                                    {{ form.puede_ver_configuracion.label }}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botones de acción -->
+                    <div class="d-flex gap-2 justify-content-end mt-4 pt-3 border-top">
+                        <a href="{% url 'gestion_usuarios:lista_roles' %}" class="btn btn-secondary">
+                            <i class="fas fa-times me-1"></i> Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-1"></i> {{ accion }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
