@@ -1,0 +1,79 @@
+{% extends 'base.html' %} 
+
+{% block title %}Gestión de Especialistas - Kasumi{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Inicio</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Especialistas</li>
+        </ol>
+    </nav>
+    
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fas fa-user-md me-2 text-info"></i> Listado de Especialistas</h2>
+        {% if perms.gestion_especialistas.add_especialista %}
+            <a href="{% url 'gestion_especialistas:crear_especialista' %}" class="btn btn-primary shadow-sm">
+                <i class="fas fa-plus me-1"></i> Crear Especialista
+            </a>
+        {% endif %}
+    </div>
+
+    <div class="card shadow border-0">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr class="table-light">
+                            <th>Nombre</th>
+                            <th>Usuario</th>
+                            <th>Especialidad</th>
+                            <th>Servicios que realiza</th>
+                            <th>Activo</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for especialista in especialistas %}
+                        <tr>
+                            <td>{{ especialista.usuario.get_full_name }}</td>
+                            <td>{{ especialista.usuario.email }}</td>
+                            <td>{{ especialista.especialidad }}</td>
+                            <td>
+                                {% for servicio in especialista.servicios.all %}
+                                    <span class="badge bg-secondary me-1">{{ servicio.nombre }}</span>
+                                {% empty %}
+                                    <span class="badge bg-danger">Sin Servicios</span>
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {% if especialista.is_activo %}
+                                    <span class="badge bg-success">Sí</span>
+                                {% else %}
+                                    <span class="badge bg-danger">No</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if perms.gestion_especialistas.change_especialista %}
+                                    <a href="{% url 'gestion_especialistas:editar_especialista' especialista.pk %}" class="btn btn-sm btn-outline-warning" title="Editar"><i class="fas fa-edit"></i></a>
+                                {% endif %}
+                                {% if perms.gestion_especialistas.delete_especialista %}
+                                    <a href="{% url 'gestion_especialistas:eliminar_especialista' especialista.pk %}" class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="fas fa-trash-alt"></i></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center text-muted py-4">
+                                <i class="fas fa-exclamation-circle me-2"></i> No hay especialistas registrados.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

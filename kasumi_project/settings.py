@@ -31,6 +31,11 @@ INSTALLED_APPS = [
     'accounts',
     'core',
     'gestion_usuarios',
+    'gestion_servicios',
+    'gestion_citas',
+    'gestion_agenda',
+    'gestion_especialistas',
+    'gestion_clientes',
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminar Servicio - Kasumi{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Inicio</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'gestion_servicios:lista_servicios' %}">Servicios</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Eliminar</li>
+        </ol>
+    </nav>
+
+    <div class="card shadow border-0 p-4">
+        <h2 class="card-title text-center mb-4 text-danger"><i class="fas fa-exclamation-triangle me-2"></i> Confirmar Eliminación</h2>
+        
+        <div class="alert alert-danger text-center" role="alert">
+            <p class="lead mb-3">¿Estás seguro de que deseas **eliminar** permanentemente el siguiente servicio?</p>
+            <h4 class="alert-heading">{{ servicio.nombre }}</h4>
+        </div>
+        
+        <div class="row mb-3 text-center">
+            <div class="col-md-4">
+                <strong>Duración:</strong> {{ servicio.duracion_minutos }} min
+            </div>
+            <div class="col-md-4">
+                <strong>Precio:</strong> $ {{ servicio.precio }}
+            </div>
+            <div class="col-md-4">
+                <strong>Estado:</strong> {{ servicio.get_estado_display }}
+            </div>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-4">
+                <button type="submit" class="btn btn-danger me-md-2 shadow-sm"><i class="fas fa-trash-alt me-1"></i> Sí, Eliminar</button>
+                <a href="{% url 'gestion_servicios:lista_servicios' %}" class="btn btn-outline-secondary shadow-sm">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
