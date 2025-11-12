@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Crear Especialista - Kasumi{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Inicio</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'gestion_especialistas:lista_especialistas' %}">Especialistas</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Crear</li>
+        </ol>
+    </nav>
+
+    <div class="card shadow border-0 p-4">
+        <h2 class="card-title text-center mb-4"><i class="fas fa-plus me-2 text-primary"></i> Registrar Nuevo Especialista</h2>
+        
+        <form method="post" class="needs-validation" novalidate>
+            {% csrf_token %}
+            
+            <div class="row g-3">
+                <div class="col-md-12 mb-3">
+                    <label for="{{ form.usuario.id_for_label }}" class="form-label">Usuario</label>
+                    {{ form.usuario }}
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="{{ form.especialidad.id_for_label }}" class="form-label">Especialidad Principal</label>
+                    {{ form.especialidad }}
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                    <label for="{{ form.is_activo.id_for_label }}" class="form-label">Estado</label>
+                    <div class="form-check form-switch mt-2">
+                        {{ form.is_activo }}
+                        <label class="form-check-label" for="{{ form.is_activo.id_for_label }}">Especialista Activo</label>
+                    </div>
+                </div>
+
+                <div class="col-md-12 mb-3">
+                    <label class="form-label">Servicios que puede realizar</label>
+                    <div class="border p-3 rounded" style="max-height: 200px; overflow-y: auto;">
+                        {{ form.servicios }}
+                    </div>
+                    <small class="form-text text-muted">Selecciona todos los servicios que este especialista está apto para ofrecer.</small>
+                </div>
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                <button type="submit" class="btn btn-success me-md-2 shadow-sm"><i class="fas fa-save me-1"></i> Guardar Especialista</button>
+                <a href="{% url 'gestion_especialistas:lista_especialistas' %}" class="btn btn-outline-secondary shadow-sm">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

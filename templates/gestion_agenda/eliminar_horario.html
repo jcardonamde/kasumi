@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminar Horario - Kasumi{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Inicio</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'gestion_agenda:lista_horarios' %}">Horarios</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Eliminar</li>
+        </ol>
+    </nav>
+
+    <div class="card shadow border-0 p-4">
+        <h2 class="card-title text-center mb-4 text-danger"><i class="fas fa-exclamation-triangle me-2"></i> Confirmar Eliminación</h2>
+        
+        <div class="alert alert-danger text-center" role="alert">
+            <p class="lead mb-3">¿Estás seguro de que deseas **eliminar** permanentemente este horario?</p>
+            
+            <h4 class="alert-heading">
+                Horario: **{{ horario.nombre }}** ({{ horario.get_dia_semana_display }})
+            </h4>
+            <p>De **{{ horario.hora_inicio|time:"H:i" }}** a **{{ horario.hora_fin|time:"H:i" }}**</p>
+        </div>
+        
+        <form method="post">
+            {% csrf_token %}
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-4">
+                <button type="submit" class="btn btn-danger me-md-2 shadow-sm"><i class="fas fa-trash-alt me-1"></i> Sí, Eliminar</button>
+                <a href="{% url 'gestion_agenda:lista_horarios' %}" class="btn btn-outline-secondary shadow-sm">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

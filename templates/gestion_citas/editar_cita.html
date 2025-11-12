@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Programar Nueva Cita - Kasumi{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Inicio</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'gestion_citas:lista_citas' %}">Citas</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Programar</li>
+        </ol>
+    </nav>
+
+    <div class="card shadow border-0 p-4">
+        <h2 class="card-title text-center mb-4"><i class="fas fa-calendar-plus me-2 text-primary"></i> Programar Nueva Cita</h2>
+        
+        <form method="post" class="needs-validation" novalidate>
+            {% csrf_token %}
+            
+            <div class="row g-3">
+                {% for field in form %}
+                <div class="col-md-6">
+                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                            <div class="invalid-feedback d-block">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                    {% if field.help_text %}
+                        <div class="form-text">{{ field.help_text }}</div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                <button type="submit" class="btn btn-success me-md-2 shadow-sm"><i class="fas fa-save me-1"></i> Guardar Cita</button>
+                <a href="{% url 'gestion_citas:lista_citas' %}" class="btn btn-outline-secondary shadow-sm">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

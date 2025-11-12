@@ -1,0 +1,70 @@
+{% extends 'base.html' %} 
+{% block title %}Listado de Servicios - Kasumi{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Inicio</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Gestión de Servicios</li>
+        </ol>
+    </nav>
+    
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fas fa-concierge-bell text-secondary me-2"></i> Listado de Servicios</h2>
+        {% if perms.gestion_servicios.add_servicio %}
+            <a href="{% url 'gestion_servicios:crear_servicio' %}" class="btn btn-primary shadow-sm">
+                <i class="fas fa-plus me-1"></i> Crear Nuevo Servicio
+            </a>
+        {% endif %}
+    </div>
+
+    <div class="card shadow border-0">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr class="table-light">
+                            <th>Nombre</th>
+                            <th>Duración (min)</th>
+                            <th>Precio</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for servicio in servicios %}
+                        <tr>
+                            <td>{{ servicio.nombre }}</td>
+                            <td>{{ servicio.duracion_minutos }}</td>
+                            <td>$ {{ servicio.precio|floatformat:2 }}</td>
+                            <td>
+                                {% if servicio.estado == 'ACT' %}
+                                    <span class="badge bg-success">Activo</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Inactivo</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if perms.gestion_servicios.change_servicio %}
+                                    <a href="{% url 'gestion_servicios:editar_servicio' servicio.pk %}" class="btn btn-sm btn-outline-warning" title="Editar"><i class="fas fa-edit"></i></a>
+                                {% endif %}
+                                {% if perms.gestion_servicios.delete_servicio %}
+                                    <a href="{% url 'gestion_servicios:eliminar_servicio' servicio.pk %}" class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="fas fa-trash-alt"></i></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted py-4">
+                                <i class="fas fa-exclamation-circle me-2"></i> No hay servicios registrados.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

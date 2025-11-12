@@ -1,0 +1,28 @@
+{% extends 'base.html' %} 
+
+{% block title %}Agenda y Horarios - Kasumi{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Inicio</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Agenda y Horarios</li>
+        </ol>
+    </nav>
+    
+    <div class="alert alert-info text-center" role="alert">
+        <h3><i class="fas fa-calendar-alt me-2"></i> Módulo de Agenda en Desarrollo</h3>
+        <p class="lead">Esta sección se utilizará para gestionar los horarios de los especialistas y la disponibilidad de citas.</p>
+    </div>
+    
+    <div class="card shadow border-0 p-4 mt-4">
+        <h4 class="card-title">Modelos Creados:</h4>
+        <ul>
+            <li>**Horarios:** Permite definir la jornada laboral (e.g., Lunes de 9 a 5).</li>
+            <li>**Disponibilidad:** Asigna esos horarios a especialistas específicos.</li>
+        </ul>
+        <p class="mt-3">El siguiente paso será implementar el CRUD para estos modelos.</p>
+    </div>
+</div>
+{% endblock %}
