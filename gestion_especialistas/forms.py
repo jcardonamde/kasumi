@@ -2,7 +2,7 @@
 
 from django import forms
 from django.contrib.auth import get_user_model
-from .models import Especialista, HorarioBase, Disponibilidad
+from .models import Especialista, HorarioBase, Disponibilidad 
 
 User = get_user_model()
 
@@ -10,11 +10,13 @@ User = get_user_model()
 # 1. Formulario para Especialista
 # -----------------
 class EspecialistaForm(forms.ModelForm):
-    # Filtramos el campo 'usuario' para solo mostrar usuarios que son staff (is_staff=True)
+    # Definición más robusta para el campo obligatorio 'usuario'.
+    # Filtra: Solo usuarios que son staff (is_staff=True). Incluimos superusuarios por si acaso.
     usuario = forms.ModelChoiceField(
-        queryset=User.objects.filter(is_staff=True).exclude(is_superuser=True),
+        queryset=User.objects.filter(is_staff=True).order_by('first_name'),
+        # Nota: He ELIMINADO el .exclude(is_superuser=True) para que al menos el Admin aparezca
         widget=forms.Select(attrs={'class': 'form-select'}),
-        label='Usuario Asignado'
+        label='Usuario Asignado (Debe ser staff)'
     )
 
     class Meta:
@@ -23,7 +25,6 @@ class EspecialistaForm(forms.ModelForm):
         
         widgets = {
             'especialidad': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: Barbero, Masajista'}),
-            # Usamos CheckboxSelectMultiple para la relación ManyToManyField
             'servicios': forms.CheckboxSelectMultiple(attrs={'class': 'list-unstyled'}),
             'is_activo': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
@@ -31,22 +32,18 @@ class EspecialistaForm(forms.ModelForm):
             'is_activo': 'Especialista Activo'
         }
 
-        # gestion_especialistas/forms.py (AÑADIR AL FINAL)
-
-# ... (El código de EspecialistaForm ya existe arriba) ...
 
 # -----------------
-# 2. Formulario para definir Horarios Base
+# 2. Formulario para HorarioBase
 # -----------------
 class HorarioBaseForm(forms.ModelForm):
     class Meta:
         model = HorarioBase
-        fields = ['nombre', 'dia_semana', 'hora_inicio', 'hora_fin']
+        fields = '__all__'
         
         widgets = {
-            'nombre': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: Jornada Completa Lunes'}),
+            'nombre': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: Jornada Completa'}),
             'dia_semana': forms.Select(attrs={'class': 'form-select'}),
-            # Usamos TimeInput con type="time" para mejor UX
             'hora_inicio': forms.TimeInput(attrs={'class': 'form-control', 'type': 'time'}),
             'hora_fin': forms.TimeInput(attrs={'class': 'form-control', 'type': 'time'}),
         }
@@ -56,17 +53,11 @@ class HorarioBaseForm(forms.ModelForm):
             'hora_fin': 'Hora de Fin',
         }
 
-        # gestion_especialistas/forms.py (AÑADIR AL FINAL)
-
-# ... (Los formularios EspecialistaForm y HorarioBaseForm ya existen) ...
 
 # -----------------
 # 3. Formulario para asignar Disponibilidad a un Especialista
 # -----------------
 class DisponibilidadForm(forms.ModelForm):
-    # Especialista se carga automáticamente al crear la disponibilidad desde el perfil del especialista
-    # Aquí lo dejamos como campo regular para el CRUD general
-    
     class Meta:
         model = Disponibilidad
         fields = ['especialista', 'horario', 'fecha_especifica']
@@ -74,9 +65,5 @@ class DisponibilidadForm(forms.ModelForm):
         widgets = {
             'especialista': forms.Select(attrs={'class': 'form-select'}),
             'horario': forms.Select(attrs={'class': 'form-select'}),
-            # Usamos DateInput con type="date" para un selector nativo en el navegador
             'fecha_especifica': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-        }
-        labels = {
-            'fecha_especifica': 'Fecha Específica (Opcional, para excepciones/días libres)',
         }
