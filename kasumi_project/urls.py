@@ -18,5 +18,7 @@ urlpatterns = [
     path('gestion/agenda/', include('gestion_agenda.urls')), 
     path('gestion/especialistas/', include('gestion_especialistas.urls')),
     path('gestion/clientes/', include('gestion_clientes.urls')),
+    path('configuraciones/', include(('configuraciones.urls', 'configuraciones'), namespace='configuraciones')),
+    
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + \
     static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

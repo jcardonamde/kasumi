@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'gestion_agenda',
     'gestion_especialistas',
     'gestion_clientes',
+    'configuraciones',
 ]
 
 MIDDLEWARE = [
