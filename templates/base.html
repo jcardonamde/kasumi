@@ -6,15 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Kasumi - Sistema de Gestión{% endblock %}</title>
     
-    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Estilos principales del proyecto -->
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     
-    <!-- Estilos personalizados -->
     <style>
         body {
             background-color: #f8f9fa;
@@ -37,7 +33,6 @@
 </head>
 <body class="{% block body_class %}{% endblock %}">
     {% if user.is_authenticated %}
-    <!-- Barra de navegación -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
             <a class="navbar-brand" href="{% url 'core:home' %}">
@@ -85,7 +80,7 @@
                                 <i class="fas fa-calendar-check me-2"></i> Citas
                             </a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#" onclick="alert('Módulo en desarrollo'); return false;">
+                            <li><a class="dropdown-item" href="{% url 'reportes:lista_reportes' %}">
                                 <i class="fas fa-chart-bar me-2"></i> Reportes
                             </a></li>
                             <li><a class="dropdown-item" href="#" onclick="alert('Módulo en desarrollo'); return false;">
@@ -119,32 +114,19 @@
     </nav>
     {% endif %}
 
-    <!-- Contenido principal -->
     <main class="container">
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} alert-dismissible fade show auto-dismiss" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            {% endfor %}
-        {% endif %}
-        
+        ...
         {% block content %}{% endblock %}
     </main>
 
-    <!-- Footer -->
     <footer class="bg-light text-center text-muted py-4 mt-5">
         <div class="container">
             <p class="mb-0">© {% now "Y" %} Kasumi - Sistema de Gestión. <span class="d-none d-md-inline">Desarrollado por D2JL Inc ®</span></p>
         </div>
     </footer>
 
-    <!-- Bootstrap JS y dependencias -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- Scripts personalizados -->
     <script>
         // Activar tooltips de Bootstrap
         document.addEventListener('DOMContentLoaded', function() {
@@ -158,8 +140,18 @@
             alerts.forEach(function(alert) {
                 setTimeout(function() {
                     var bsAlert = new bootstrap.Alert(alert);
-                    bsAlert.close();
+                    // Solo intentar cerrar si el elemento existe y la alerta fue inicializada
+                    if (bsAlert) { 
+                        bsAlert.close();
+                    }
                 }, 5000); // 5 segundos
+            });
+
+            // Código para forzar la inicialización de Dropdowns si falla el atributo data-bs-toggle
+            // Esto es una capa de seguridad adicional.
+            var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'))
+            var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
+                return new bootstrap.Dropdown(dropdownToggleEl)
             });
         });
     </script>

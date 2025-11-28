@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bootstrap5',
     # Apps personalizadas
     'accounts',
     'core',
@@ -36,6 +37,7 @@ INSTALLED_APPS = [
     'gestion_agenda',
     'gestion_especialistas',
     'gestion_clientes',
+    'reportes',
 ]
 
 MIDDLEWARE = [

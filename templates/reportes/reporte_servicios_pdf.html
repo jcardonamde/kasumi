@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ titulo }}</title>
+    <style>
+        /* --- Configuración y Estilos Básicos para PDF (WeasyPrint) --- */
+        @page {
+            /* Define el tamaño de la hoja a A4 y el margen */
+            size: A4 portrait; 
+            margin: 1cm;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 10pt;
+            color: #333;
+        }
+        
+        /* Encabezado */
+        h1 {
+            text-align: center;
+            font-size: 18pt;
+            color: #3f51b5; /* Un azul primario para el título */
+            margin-bottom: 0.2cm;
+            padding-bottom: 5px;
+            border-bottom: 3px solid #3f51b5;
+        }
+        .header-info {
+            text-align: center;
+            font-size: 9pt;
+            margin-bottom: 0.5cm;
+            padding-bottom: 0.3cm;
+        }
+
+        /* Tabla */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+            font-size: 10pt;
+            color: #555;
+        }
+        
+        /* Alineación */
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
+        
+        /* Estilos específicos del contenido */
+        .activo { color: green; font-weight: bold; }
+        .inactivo { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h1>{{ titulo }}</h1>
+    <div class="header-info">
+        Fecha de Generación: <strong>{{ fecha_generacion }}</strong>
+    </div>
+
+    {% if servicios %}
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 5%;" class="text-center">ID</th>
+                <th style="width: 35%;">Nombre del Servicio</th>
+                <th style="width: 20%;" class="text-right">Precio Base ($)</th>
+                <th style="width: 20%;" class="text-center">Duración (min)</th>
+                <th style="width: 15%;" class="text-center">Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for servicio in servicios %}
+            <tr>
+                <td class="text-center">{{ servicio.id }}</td>
+                <td>{{ servicio.nombre }}</td>
+                
+                {# Usamos 'servicio.precio' que es el atributo correcto, y lo formateamos como moneda #}
+                <td class="text-right">${{ servicio.precio|floatformat:2|default:"0.00" }}</td>
+                
+                <td class="text-center">{{ servicio.duracion_minutos }}</td>
+                
+                {% comment %} Aplica una clase para colorear el estado {% endcomment %}
+                <td class="text-center">
+                    {% if servicio.estado == 'Activo' %}
+                        <span class="activo">{{ servicio.estado }}</span>
+                    {% else %}
+                        <span class="inactivo">{{ servicio.estado }}</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="text-center">No se encontraron servicios disponibles para generar el reporte.</p>
+    {% endif %}
+
+</body>
+</html>

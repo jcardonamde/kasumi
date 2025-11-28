@@ -1,0 +1,237 @@
+{% extends "base.html" %} 
+{% load static %}
+
+{% block title %}Reportes{% endblock %}
+
+{% block content %}
+<div class="card shadow">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0"><i class="fas fa-file-export me-2"></i> Reportes</h4>
+    </div>
+    <div class="card-body">
+        <p class="text-muted">Seleccione los filtros deseados y elija el tipo de reporte a generar.</p>
+        
+        <hr>
+
+        <form id="filtro-form">
+            <div class="row g-3 mb-4">
+                
+                <div class="col-md-4">
+                    <label for="fecha_inicial" class="form-label">Fecha Inicial</label>
+                    <input type="date" class="form-control" id="fecha_inicial" name="fecha_inicial">
+                </div>
+
+                <div class="col-md-4">
+                    <label for="fecha_final" class="form-label">Fecha Final</label>
+                    <input type="date" class="form-control" id="fecha_final" name="fecha_final">
+                </div>
+                
+                <div class="col-md-4">
+                    <label for="rol" class="form-label">Filtrar por Rol (Opcional)</label>
+                    <select class="form-select" id="rol" name="rol" style="min-height: 38px;">
+                        <option value="">--- Todos los Roles ---</option>
+                        {% for rol in roles_generales %}
+                            <option value="{{ rol.id }}">{{ rol.nombre }}</option>
+                        {% empty %}
+                            <option disabled>-- No se encontraron roles --</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+            </div>
+        </form>
+        
+        <hr>
+        
+        <h5 class="mt-4 mb-3"><i class="fas fa-list-alt me-2"></i> Tipos de Reporte</h5>
+        
+        <div class="row g-3">
+            
+            <div class="col-md-4">
+                <div class="card bg-light h-100">
+                    <div class="card-body">
+                        <h6 class="card-title text-primary"><i class="fas fa-user me-2"></i> Reporte de Usuarios</h6>
+                        <p class="card-text small">Genera el listado de usuarios con filtro de Rol.</p>
+                        <div class="dropdown">
+                            <button class="btn btn-success btn-sm dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Generar Opciones
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item generar-reporte" data-formato="excel" data-url="{% url 'reportes:generar_reporte_usuarios' %}" href="#"><i class="fas fa-file-excel me-2"></i> Guardar Excel</a></li>
+                                <li><a class="dropdown-item generar-reporte" data-formato="excel_imprimir" data-url="{% url 'reportes:generar_reporte_usuarios' %}" href="#"><i class="fas fa-print me-2"></i> Imprimir Excel</a></li>
+                                <li><a class="dropdown-item generar-reporte" data-formato="pdf" data-url="{% url 'reportes:generar_reporte_usuarios' %}" href="#"><i class="fas fa-file-pdf me-2"></i> Guardar PDF</a></li>
+                                <li><a class="dropdown-item generar-reporte" data-formato="pdf_imprimir" data-url="{% url 'reportes:generar_reporte_usuarios' %}" href="#"><i class="fas fa-print me-2"></i> Imprimir PDF</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card bg-light h-100">
+                    <div class="card-body">
+                        <h6 class="card-title text-primary"><i class="fas fa-users me-2"></i> Reporte de Clientes</h6>
+                        <p class="card-text small">Genera el listado de clientes por fecha de creación.</p>
+                        <div class="dropdown">
+                            <button class="btn btn-info btn-sm dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Generar Opciones
+                            </button>
+                            <ul class="dropdown-menu">
+                                {# CORRECCIÓN: Se elimina data-requiere-fechas="true" #}
+                                <li><a class="dropdown-item generar-reporte" data-formato="excel" data-url="{% url 'reportes:generar_reporte_clientes' %}" href="#"><i class="fas fa-file-excel me-2"></i> Guardar Excel</a></li>
+                                <li><a class="dropdown-item generar-reporte" data-formato="excel_imprimir" data-url="{% url 'reportes:generar_reporte_clientes' %}" href="#"><i class="fas fa-print me-2"></i> Imprimir Excel</a></li>
+                                <li><a class="dropdown-item generar-reporte" data-formato="pdf" data-url="{% url 'reportes:generar_reporte_clientes' %}" href="#"><i class="fas fa-file-pdf me-2"></i> Guardar PDF</a></li>
+                                <li><a class="dropdown-item generar-reporte" data-formato="pdf_imprimir" data-url="{% url 'reportes:generar_reporte_clientes' %}" href="#"><i class="fas fa-print me-2"></i> Imprimir PDF</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card bg-light h-100">
+                    <div class="card-body">
+                        <h6 class="card-title text-primary"><i class="fas fa-sitemap me-2"></i> Reporte de Servicios</h6>
+                        <p class="card-text small">Genera el listado de todos los servicios activos.</p>
+                        <div class="dropdown">
+                            <button class="btn btn-warning btn-sm dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Generar Opciones
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item generar-reporte" data-formato="excel" data-url="{% url 'reportes:generar_reporte_servicios' %}" href="#"><i class="fas fa-file-excel me-2"></i> Guardar Excel</a></li>
+                                <li><a class="dropdown-item generar-reporte" data-formato="excel_imprimir" data-url="{% url 'reportes:generar_reporte_servicios' %}" href="#"><i class="fas fa-print me-2"></i> Imprimir Excel</a></li>
+                                <li><a class="dropdown-item generar-reporte" data-formato="pdf" data-url="{% url 'reportes:generar_reporte_servicios' %}" href="#"><i class="fas fa-file-pdf me-2"></i> Guardar PDF</a></li>
+                                <li><a class="dropdown-item generar-reporte" data-formato="pdf_imprimir" data-url="{% url 'reportes:generar_reporte_servicios' %}" href="#"><i class="fas fa-print me-2"></i> Imprimir PDF</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row g-3 mt-2">
+            <div class="col-md-4">
+                <div class="card bg-light h-100">
+                    <div class="card-body">
+                        <h6 class="card-title text-primary"><i class="fas fa-user-tie me-2"></i> Reporte de Especialistas</h6>
+                        <p class="card-text small">Genera el listado de especialistas/empleados por fecha.</p>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary btn-sm dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Generar Opciones
+                            </button>
+                            <ul class="dropdown-menu">
+                                {# CORRECCIÓN: Se elimina data-requiere-fechas="true" #}
+                                <li><a class="dropdown-item generar-reporte" data-formato="excel" data-url="{% url 'reportes:generar_reporte_especialistas' %}" href="#"><i class="fas fa-file-excel me-2"></i> Guardar Excel</a></li>
+                                <li><a class="dropdown-item generar-reporte" data-formato="excel_imprimir" data-url="{% url 'reportes:generar_reporte_especialistas' %}" href="#"><i class="fas fa-print me-2"></i> Imprimir Excel</a></li>
+                                <li><a class="dropdown-item generar-reporte" data-formato="pdf" data-url="{% url 'reportes:generar_reporte_especialistas' %}" href="#"><i class="fas fa-file-pdf me-2"></i> Guardar PDF</a></li>
+                                <li><a class="dropdown-item generar-reporte" data-formato="pdf_imprimir" data-url="{% url 'reportes:generar_reporte_especialistas' %}" href="#"><i class="fas fa-print me-2"></i> Imprimir PDF</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card bg-light h-100">
+                    <div class="card-body">
+                        <h6 class="card-title text-primary"><i class="fas fa-calendar-alt me-2"></i> Reporte de Citas/Agenda</h6>
+                        <p class="card-text small">Genera el reporte de citas agendadas por rango de fecha.</p>
+                        <div class="dropdown">
+                            <button class="btn btn-danger btn-sm dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Generar Opciones
+                            </button>
+                            <ul class="dropdown-menu">
+                                {# CORRECCIÓN: Se elimina data-requiere-fechas="true" #}
+                                <li><a class="dropdown-item generar-reporte" data-formato="excel" data-url="{% url 'reportes:generar_reporte_citas' %}" href="#"><i class="fas fa-file-excel me-2"></i> Guardar Excel</a></li>
+                                <li><a class="dropdown-item generar-reporte" data-formato="excel_imprimir" data-url="{% url 'reportes:generar_reporte_citas' %}" href="#"><i class="fas fa-print me-2"></i> Imprimir Excel</a></li>
+                                <li><a class="dropdown-item generar-reporte" data-formato="pdf" data-url="{% url 'reportes:generar_reporte_citas' %}" href="#"><i class="fas fa-file-pdf me-2"></i> Guardar PDF</a></li>
+                                <li><a class="dropdown-item generar-reporte" data-formato="pdf_imprimir" data-url="{% url 'reportes:generar_reporte_citas' %}" href="#"><i class="fas fa-print me-2"></i> Imprimir PDF</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card bg-light h-100 border-primary">
+                    <div class="card-body">
+                        <h6 class="card-title text-primary"><i class="fas fa-clock me-2"></i> Reporte de Agenda General</h6>
+                        <p class="card-text small">Resumen de actividades</p> 
+                        <div class="dropdown">
+                            <button class="btn btn-dark btn-sm dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Generar Opciones
+                            </button>
+                            <ul class="dropdown-menu">
+                                {# Se mantiene data-requiere-fechas="true" para Agenda General si se requiere la fecha siempre #}
+                                <li><a class="dropdown-item generar-reporte" data-formato="excel" data-url="{% url 'reportes:generar_reporte_agenda' %}" data-requiere-fechas="true" href="#"><i class="fas fa-file-excel me-2"></i> Guardar Excel</a></li>
+                                <li><a class="dropdown-item generar-reporte" data-formato="excel_imprimir" data-url="{% url 'reportes:generar_reporte_agenda' %}" data-requiere-fechas="true" href="#"><i class="fas fa-print me-2"></i> Imprimir Excel</a></li>
+                                <li><a class="dropdown-item generar-reporte" data-formato="pdf" data-url="{% url 'reportes:generar_reporte_agenda' %}" data-requiere-fechas="true" href="#"><i class="fas fa-file-pdf me-2"></i> Guardar PDF</a></li>
+                                <li><a class="dropdown-item generar-reporte" data-formato="pdf_imprimir" data-url="{% url 'reportes:generar_reporte_agenda' %}" data-requiere-fechas="true" href="#"><i class="fas fa-print me-2"></i> Imprimir PDF</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const filtroForm = document.getElementById('filtro-form');
+        const fechaInicialInput = filtroForm.querySelector('#fecha_inicial');
+        const fechaFinalInput = filtroForm.querySelector('#fecha_final');
+        const generarReporteButtons = document.querySelectorAll('.generar-reporte');
+
+        generarReporteButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                const formato = this.getAttribute('data-formato');
+                let baseUrl = this.getAttribute('data-url');
+                
+                // Si el atributo no existe, requiereFechas será null, y al comparar con 'true' será false.
+                // 💡 Esta lógica de JS ahora sólo validará si el atributo data-requiere-fechas="true" está PRESENTE.
+                const requiereFechas = this.getAttribute('data-requiere-fechas') === 'true'; 
+
+                const fechaInicial = fechaInicialInput.value;
+                const fechaFinal = fechaFinalInput.value;
+                
+                // 1. VALIDACIÓN GENERAL DE FECHAS
+                if (requiereFechas && (!fechaInicial || !fechaFinal)) {
+                    // Aquí se puede usar una librería de notificaciones (SweetAlert, Toastr) o un simple alert
+                    alert('ERROR: Este reporte requiere obligatoriamente seleccionar la Fecha Inicial y la Fecha Final.');
+                    
+                    // Resalta los campos para mejor UX
+                    if (!fechaInicial) fechaInicialInput.classList.add('is-invalid'); else fechaInicialInput.classList.remove('is-invalid');
+                    if (!fechaFinal) fechaFinalInput.classList.add('is-invalid'); else fechaFinalInput.classList.remove('is-invalid');
+                    
+                    return; // Detener la generación
+                } else {
+                    // Limpiar clases de error si las fechas están presentes
+                    fechaInicialInput.classList.remove('is-invalid');
+                    fechaFinalInput.classList.remove('is-invalid');
+                }
+                
+                // 2. CONSTRUCCIÓN DE PARÁMETROS
+                const params = new URLSearchParams();
+                // 💡 Se envían los parámetros SIEMPRE si tienen valor. Si están vacíos, se envían vacíos (lo cual es manejado por utils.py).
+                if (fechaInicial) params.append('fecha_inicial', fechaInicial);
+                if (fechaFinal) params.append('fecha_final', fechaFinal);
+                
+                // Añadir filtro de Rol solo si es el reporte de usuarios
+                if (baseUrl.includes('/generar/usuarios/')) {
+                    const rol = filtroForm.querySelector('#rol').value;
+                    if (rol) params.append('rol', rol);
+                }
+                
+                params.append('formato', formato);
+
+                // 3. ABRIR REPORTE
+                window.open(`${baseUrl}?${params.toString()}`, '_blank');
+            });
+        });
+    });
+</script>
+{% endblock content %}
