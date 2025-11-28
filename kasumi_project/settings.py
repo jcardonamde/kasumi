@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'gestion_especialistas',
     'gestion_clientes',
     'reportes',
+    'configuraciones',
 ]
 
 MIDDLEWARE = [
