@@ -1,0 +1,125 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ titulo }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            margin: 0;
+            padding: 20px;
+        }
+        .titulo-principal {
+            font-size: 18px; 
+            font-weight: bold;
+            color: #1976D2; 
+            margin-bottom: 5px;
+            text-align: center;
+        }
+        .linea-separadora {
+            height: 3px;
+            background-color: #1976D2; 
+            margin-bottom: 10px;
+        }
+        .fecha-generacion {
+            text-align: center;
+            font-size: 12px; 
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .filtro {
+            text-align: center;
+            font-size: 11px;
+            margin-bottom: 15px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background-color: #ECEFF1; 
+            font-weight: bold;
+            text-align: center;
+            font-size: 12px;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #FAFAFA;
+        }
+        /* Clases de estado */
+        .estado-PND { color: orange; font-weight: bold; }
+        .estado-CFM { color: blue; font-weight: bold; }
+        .estado-CMP { color: green; font-weight: bold; }
+        .estado-CNC { color: red; font-weight: bold; text-decoration: line-through; }
+        .centrar {
+            text-align: center;
+        }
+        /* Nuevo estilo para el nombre del especialista */
+        .nombre-especialista {
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="titulo-principal">{{ titulo }}</div>
+    <div class="linea-separadora"></div>
+    <div class="fecha-generacion">Generado el: {{ fecha_generacion }}</div>
+    
+    {% if filtro_fecha_inicial or filtro_fecha_final %}
+    <div class="filtro">Filtrado por Rango de Fecha: {{ filtro_fecha_inicial|default:"Inicio" }} - {{ filtro_fecha_final|default:"Fin" }}</div>
+    {% endif %}
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 5%;">ID</th>
+                <th style="width: 20%;">Cliente</th>
+                <th style="width: 20%;">Servicio</th>
+                <th style="width: 20%;">Especialista</th>
+                <th style="width: 20%;">Fecha y Hora</th>
+                <th style="width: 15%;">Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in citas %}
+            <tr>
+                <td class="centrar">{{ item.cita.id }}</td>
+                
+                <td>
+                    {# ACCESO CORREGIDO: Usamos la variable resuelta nombre_cliente_resuelto #}
+                    {{ item.nombre_cliente_resuelto }}
+                </td>
+                
+                <td>{{ item.cita.servicio.nombre|default:"Servicio Eliminado" }}</td>
+                
+                <td class="nombre-especialista">
+                    {# ACCESO CORREGIDO: Usamos la variable resuelta nombre_especialista_resuelto #}
+                    {{ item.nombre_especialista_resuelto }}
+                </td>
+                
+                <td>{{ item.cita.fecha_hora|date:"Y-m-d H:i" }}</td>
+                <td class="centrar">
+                    {% with estado_class="estado-"|add:item.cita.estado %}
+                        <span class="{{ estado_class }}">{{ item.cita.get_estado_display }}</span>
+                    {% endwith %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="centrar">No hay citas agendadas que coincidan con el filtro.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>

@@ -42,7 +42,6 @@
 {% endblock %}
 
 {% block content %}
-<!-- Bienvenida -->
 <div class="welcome-card">
     <div class="row align-items-center">
         <div class="col-md-8">
@@ -64,7 +63,6 @@
 </div>
 
 {% if user.is_staff %}
-<!-- Menú Principal de Gestión -->
 <div class="row mb-4">
     <div class="col-12">
         <h4 class="mb-3"><i class="fas fa-th-large me-2"></i>Módulos de Gestión</h4>
@@ -72,7 +70,6 @@
 </div>
 
 <div class="row g-4 mb-4">
-    <!-- Gestión de Roles -->
     <div class="col-md-6 col-lg-4">
         <a href="{% url 'gestion_usuarios:lista_roles' %}" class="text-decoration-none">
             <div class="card menu-card">
@@ -87,7 +84,6 @@
         </a>
     </div>
 
-    <!-- Gestión de Usuarios -->
     <div class="col-md-6 col-lg-4">
         <a href="{% url 'gestion_usuarios:lista_usuarios' %}" class="text-decoration-none">
             <div class="card menu-card">
@@ -102,7 +98,6 @@
         </a>
     </div>
 
-    <!-- Gestión de Servicios -->
     <div class="col-md-6 col-lg-4">
         <a href="{% url 'gestion_servicios:lista_servicios' %}" class="text-decoration-none">
             <div class="card menu-card">
@@ -117,7 +112,6 @@
         </a>
     </div>
 
-    <!-- Gestión de Especialistas -->
     <div class="col-md-6 col-lg-4">
         <a href="{% url 'gestion_especialistas:lista_especialistas' %}" class="text-decoration-none">
             <div class="card menu-card">
@@ -132,7 +126,6 @@
         </a>
     </div>
 
-    <!-- Gestión de Agenda -->
     <div class="col-md-6 col-lg-4">
         <a href="{% url 'gestion_agenda:lista_horarios' %}" class="text-decoration-none">
             <div class="card menu-card">
@@ -147,7 +140,6 @@
         </a>
     </div>
 
-    <!-- Gestión de Clientes -->
     <div class="col-md-6 col-lg-4">
         <a href="{% url 'gestion_clientes:lista_clientes' %}" class="text-decoration-none">
             <div class="card menu-card">
@@ -163,7 +155,6 @@
     </div>
 </div>
 
-<!-- Opciones Adicionales (Dropdown) -->
 <div class="row mb-4">
     <div class="col-12">
         <div class="card">
@@ -182,17 +173,17 @@
                 <div class="card-body">
                     <div class="row g-3">
                         <div class="col-md-4">
-                            <a href="{% url 'gestion_citas:lista_citas' %}" class="text-decoration-none">
+                            <a href="{% url 'gestion_citas:lista_citas' %}" class="btn btn-outline-info w-100">
                                 <i class="fas fa-calendar-check me-2"></i>Gestión de Citas
                             </a>
                         </div>
                         <div class="col-md-4">
-                            <a href="#" class="btn btn-outline-info w-100" onclick="alert('Módulo en desarrollo'); return false;">
+                            <a href="{% url 'reportes:lista_reportes' %}" class="btn btn-outline-info w-100">
                                 <i class="fas fa-chart-bar me-2"></i>Reportes
                             </a>
                         </div>
                         <div class="col-md-4">
-                            <a href="#" class="btn btn-outline-secondary w-100" onclick="alert('Módulo en desarrollo'); return false;">
+                            <a href="#" class="btn btn-outline-secondary w-100">
                                 <i class="fas fa-cog me-2"></i>Configuraciones
                             </a>
                         </div>
@@ -203,7 +194,6 @@
     </div>
 </div>
 {% else %}
-<!-- Vista para usuarios no administradores -->
 <div class="row">
     <div class="col-md-6 mx-auto">
         <div class="card">

@@ -1,0 +1,35 @@
+{% extends "reportes/reporte_base_pdf.html" %}
+
+{% block pdf_title %}Reporte de Clientes{% endblock %}
+{% block report_header_title %}Reporte de Clientes Activos{% endblock %}
+
+{% block report_content %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Teléfono</th>
+                <th>Email</th>
+                <th>Fecha Registro</th>
+                <th>Activo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cliente in clientes %}
+            <tr>
+                <td>{{ cliente.id }}</td>
+                <td>{{ cliente.nombre }}</td>
+                <td>{{ cliente.apellido }}</td>
+                <td>{{ cliente.telefono }}</td>
+                <td>{{ cliente.email }}</td>
+                <td>{{ cliente.fecha_creacion|date:"Y-m-d" }}</td>
+                <td>
+                    {% if cliente.is_activo %}Sí{% else %}No{% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock report_content %}
