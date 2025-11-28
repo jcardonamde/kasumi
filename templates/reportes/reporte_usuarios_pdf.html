@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ titulo }}</title>
-    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,11 +11,16 @@
             font-size: 10pt;
         }
         h1 {
-            color: #007bff; /* Azul primario */
+            color: #007bff;
             border-bottom: 2px solid #007bff;
             padding-bottom: 5px;
             margin-bottom: 15px;
             font-size: 14pt;
+        }
+        .header-info {
+            font-size: 10pt;
+            margin-bottom: 15px;
+            color: #666;
         }
         table {
             width: 100%;
@@ -33,31 +37,29 @@
             font-weight: bold;
             font-size: 11pt;
         }
-        .footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            text-align: center;
-            font-size: 8pt;
-            color: #666;
-            padding: 10px 0;
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
         }
-        /* Esto es crucial para WeasyPrint: define el encabezado y pie de página en cada página */
         @page {
             size: A4;
             margin: 1cm;
-            @bottom-center {
-                content: "Página " counter(page) " de " counter(pages);
-            }
-            @top-center {
-                content: "Reporte de Usuarios | {{ fecha_generacion }}";
-            }
         }
     </style>
 </head>
 <body>
     <h1>{{ titulo }}</h1>
+    <div class="header-info">
+        <p>Fecha de Generación: {{ fecha_generacion }}</p>
+        {% if filtro_fecha_inicial or filtro_fecha_final %}
+        <p>
+            {% if filtro_fecha_inicial %}Desde: {{ filtro_fecha_inicial }}{% endif %}
+            {% if filtro_fecha_final %}Hasta: {{ filtro_fecha_final }}{% endif %}
+        </p>
+        {% endif %}
+        {% if filtro_rol_nombre %}
+        <p>Rol: {{ filtro_rol_nombre }}</p>
+        {% endif %}
+    </div>
 
     <table>
         <thead>
@@ -75,22 +77,30 @@
             {% for usuario in usuarios %}
             <tr>
                 <td>{{ usuario.id }}</td>
-                <td>{{ usuario.get_full_name|default:"N/A" }}</td>
+                <td>{{ usuario.get_full_name|default:usuario.email }}</td>
                 <td>{{ usuario.email }}</td>
                 <td>{{ usuario.date_joined|date:"Y-m-d" }}</td>
                 <td>
-                    {% for rol_asignado in usuario.roles_asignados.all %}
-                        {{ rol_asignado.rol.nombre }}{% if not forloop.last %}, {% endif %}
-                    {% empty %}
+                    {% if usuario.roles_asignados.exists %}
+                        {% for rol_asignado in usuario.roles_asignados.all %}
+                            {{ rol_asignado.rol.nombre }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    {% else %}
                         Sin Roles
-                    {% endfor %}
+                    {% endif %}
                 </td>
                 <td>
-                    {% for servicio in usuario.servicios_asignados.all %}
-                        {{ servicio.nombre }}{% if not forloop.last %}, {% endif %}
-                    {% empty %}
-                        Sin Servicios
-                    {% endfor %}
+                    {% if usuario.especialista %}
+                        {% if usuario.especialista.servicios.exists %}
+                            {% for servicio in usuario.especialista.servicios.all %}
+                                {{ servicio.nombre }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            Sin Servicios
+                        {% endif %}
+                    {% else %}
+                        N/A
+                    {% endif %}
                 </td>
                 <td>{% if usuario.is_active %}Sí{% else %}No{% endif %}</td>
             </tr>
@@ -101,6 +111,5 @@
             {% endfor %}
         </tbody>
     </table>
-    
-    </body>
+</body>
 </html>

@@ -17,13 +17,21 @@ from gestion_especialistas.models import Especialista
 from gestion_citas.models import Cita 
 
 try:
-    from weasyprint import HTML
-except ImportError:
-    HTML = None 
+    from xhtml2pdf import pisa
+    PDF_AVAILABLE = True
+except (ImportError, Exception) as e:
+    # xhtml2pdf puede fallar si no está instalado
+    logger.warning(f"xhtml2pdf no está disponible: {e}. La generación de PDFs estará deshabilitada.")
+    PDF_AVAILABLE = False
+    pisa = None 
 
 
 def _filtrar_usuarios(fecha_inicial, fecha_final, rol_id):
-    usuarios = Usuario.objects.all().order_by('id')
+    # Precargar relaciones para evitar problemas durante la generación del PDF
+    usuarios = Usuario.objects.all().prefetch_related(
+        'roles_asignados__rol',
+        'especialista__servicios'
+    ).select_related('especialista').order_by('id')
     
     if fecha_inicial:
         fecha_ini_dt = datetime.strptime(fecha_inicial, '%Y-%m-%d').date()
@@ -34,7 +42,7 @@ def _filtrar_usuarios(fecha_inicial, fecha_final, rol_id):
         usuarios = usuarios.filter(date_joined__date__lte=fecha_fin_dt)
         
     if rol_id:
-        usuarios = usuarios.filter(rol__id=rol_id) 
+        usuarios = usuarios.filter(roles_asignados__rol__id=rol_id).distinct()
         
     return usuarios
 
@@ -434,9 +442,87 @@ def generar_excel_citas(fecha_inicial=None, fecha_final=None):
     return response
 
 
+def _generar_pdf_desde_html(html_string, filename_base):
+    """Función auxiliar para generar PDF desde HTML usando xhtml2pdf."""
+    if not PDF_AVAILABLE:
+        return None, "xhtml2pdf no está disponible."
+    
+    try:
+        # Asegurarse de que el HTML esté en formato string válido
+        if not isinstance(html_string, str):
+            html_string = str(html_string)
+        
+        # Limpiar el HTML de posibles caracteres problemáticos
+        html_string = html_string.replace('\x00', '')  # Eliminar caracteres nulos
+        
+        result = io.BytesIO()
+        # pisa.pisaDocument retorna un objeto pisa.pisaDocument
+        html_source = io.BytesIO(html_string.encode('UTF-8'))
+        
+        pisa_status = pisa.pisaDocument(
+            html_source,
+            result,
+            encoding='UTF-8'
+        )
+        
+        # Verificar si hubo errores
+        if pisa_status.err:
+            error_msg = f"Error al generar PDF"
+            # Intentar obtener más información del error si está disponible
+            try:
+                if hasattr(pisa_status, 'log') and pisa_status.log is not None:
+                    error_details = []
+                    # Verificar que log sea iterable antes de iterar
+                    try:
+                        # Intentar convertir a lista si es posible
+                        if hasattr(pisa_status.log, '__iter__'):
+                            log_items = list(pisa_status.log) if not isinstance(pisa_status.log, str) else [pisa_status.log]
+                            for entry in log_items:
+                                if hasattr(entry, 'message'):
+                                    error_details.append(str(entry.message))
+                                elif isinstance(entry, str):
+                                    error_details.append(entry)
+                                else:
+                                    error_details.append(str(entry))
+                    except (TypeError, AttributeError):
+                        # Si no se puede iterar, usar el objeto directamente
+                        error_details.append(str(pisa_status.log))
+                    
+                    if error_details:
+                        error_msg += f": {'; '.join(error_details[:5])}"  # Limitar a 5 mensajes
+                    else:
+                        error_msg += f": {pisa_status.err}"
+                else:
+                    error_msg += f": {pisa_status.err}"
+            except Exception as log_error:
+                # Si hay un error al procesar el log, usar el error principal
+                error_msg += f": {pisa_status.err}"
+                logger.debug(f"Error al procesar log de pisa: {log_error}")
+            
+            logger.error(error_msg)
+            return None, error_msg
+        
+        # Obtener el contenido del PDF
+        pdf_content = result.getvalue()
+        if not pdf_content or len(pdf_content) == 0:
+            return None, "Error: No se pudo generar el contenido del PDF (archivo vacío)."
+        
+        return pdf_content, None
+    except TypeError as e:
+        # Capturar específicamente el error 'NotImplementedType' object is not iterable
+        error_msg = str(e)
+        logger.error(f"Error de tipo al generar PDF: {e}", exc_info=True)
+        if "'NotImplementedType' object is not iterable" in error_msg:
+            return None, "Error al procesar el HTML. La plantilla puede tener elementos no compatibles con xhtml2pdf. Intente simplificar la plantilla o verifique que no use herencia de plantillas."
+        return None, f"Error al procesar el HTML: {error_msg}. Verifique que todas las relaciones en la plantilla estén correctamente definidas."
+    except Exception as e:
+        logger.error(f"Error al generar PDF: {e}", exc_info=True)
+        return None, f"Error inesperado al generar PDF: {str(e)}"
+
+
 def generar_pdf_usuarios(fecha_inicial=None, fecha_final=None, rol_id=None, formato='pdf'):
-    if HTML is None:
-        return HttpResponse("Error 501: La conversión a PDF binario (WeasyPrint) no está disponible.", status=501)
+    if not PDF_AVAILABLE:
+        return HttpResponse("Error 501: La conversión a PDF binario (xhtml2pdf) no está disponible.", status=501)
     
     usuarios = _filtrar_usuarios(fecha_inicial, fecha_final, rol_id)
         
@@ -458,8 +544,10 @@ def generar_pdf_usuarios(fecha_inicial=None, fecha_final=None, rol_id=None, form
     
     try:
         html_string = render_to_string('reportes/reporte_usuarios_pdf.html', context)
-        html_doc = HTML(string=html_string)
-        pdf_file = html_doc.write_pdf()
+        pdf_file, error = _generar_pdf_desde_html(html_string, 'reporte_usuarios')
+        
+        if error:
+            return HttpResponse(f"Error al generar PDF: {error}", status=500)
 
         response = HttpResponse(pdf_file, content_type='application/pdf')
         filename = f"reporte_usuarios_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf"
@@ -477,8 +565,8 @@ def generar_pdf_usuarios(fecha_inicial=None, fecha_final=None, rol_id=None, form
 
 
 def generar_pdf_clientes(fecha_inicial=None, fecha_final=None, formato='pdf'):
-    if HTML is None:
-        return HttpResponse("Error 501: La conversión a PDF binario (WeasyPrint) no está disponible.", status=501)
+    if not PDF_AVAILABLE:
+        return HttpResponse("Error 501: La conversión a PDF binario (xhtml2pdf) no está disponible.", status=501)
 
     clientes = _filtrar_clientes(fecha_inicial, fecha_final)
 
@@ -492,8 +580,10 @@ def generar_pdf_clientes(fecha_inicial=None, fecha_final=None, formato='pdf'):
 
     try:
         html_string = render_to_string('reportes/reporte_clientes_pdf.html', context)
-        html_doc = HTML(string=html_string)
-        pdf_file = html_doc.write_pdf()
+        pdf_file, error = _generar_pdf_desde_html(html_string, 'reporte_clientes')
+        
+        if error:
+            return HttpResponse(f"Error al generar PDF: {error}", status=500)
 
         response = HttpResponse(pdf_file, content_type='application/pdf')
         filename = f"reporte_clientes_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf"
@@ -511,8 +601,8 @@ def generar_pdf_clientes(fecha_inicial=None, fecha_final=None, formato='pdf'):
 
 
 def generar_pdf_servicios(formato='pdf'):
-    if HTML is None:
-        return HttpResponse("Error 501: La conversión a PDF binario (WeasyPrint) no está disponible.", status=501)
+    if not PDF_AVAILABLE:
+        return HttpResponse("Error 501: La conversión a PDF binario (xhtml2pdf) no está disponible.", status=501)
 
     servicios = _filtrar_servicios()
 
@@ -524,9 +614,10 @@ def generar_pdf_servicios(formato='pdf'):
 
     try: 
         html_string = render_to_string('reportes/reporte_servicios_pdf.html', context) 
+        pdf_file, error = _generar_pdf_desde_html(html_string, 'reporte_servicios')
         
-        html_doc = HTML(string=html_string)
-        pdf_file = html_doc.write_pdf()
+        if error:
+            return HttpResponse(f"Error al generar PDF: {error}", status=500)
 
         response = HttpResponse(pdf_file, content_type='application/pdf')
         filename = f"reporte_servicios_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf"
@@ -547,8 +638,8 @@ def generar_pdf_servicios(formato='pdf'):
 
 
 def generar_pdf_especialistas(fecha_inicial=None, fecha_final=None, formato='pdf'):
-    if HTML is None:
-        return HttpResponse("Error 501: La conversión a PDF binario (WeasyPrint) no está disponible.", status=501)
+    if not PDF_AVAILABLE:
+        return HttpResponse("Error 501: La conversión a PDF binario (xhtml2pdf) no está disponible.", status=501)
 
     especialistas = _filtrar_especialistas(fecha_inicial, fecha_final)
 
@@ -562,9 +653,10 @@ def generar_pdf_especialistas(fecha_inicial=None, fecha_final=None, formato='pdf
 
     try: 
         html_string = render_to_string('reportes/reporte_especialistas_pdf.html', context)
+        pdf_file, error = _generar_pdf_desde_html(html_string, 'reporte_especialistas')
         
-        html_doc = HTML(string=html_string)
-        pdf_file = html_doc.write_pdf()
+        if error:
+            return HttpResponse(f"Error al generar PDF: {error}", status=500)
 
         response = HttpResponse(pdf_file, content_type='application/pdf')
         filename = f"reporte_especialistas_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf"
@@ -584,8 +676,8 @@ def generar_pdf_especialistas(fecha_inicial=None, fecha_final=None, formato='pdf
         return HttpResponse(f"Error al generar PDF de Especialistas. Detalle: {e}", status=500)
 
 def generar_pdf_citas(fecha_inicial=None, fecha_final=None, formato='pdf'):
-    if HTML is None:
-        return HttpResponse("Error 501: La conversión a PDF binario (WeasyPrint) no está disponible.", status=501)
+    if not PDF_AVAILABLE:
+        return HttpResponse("Error 501: La conversión a PDF binario (xhtml2pdf) no está disponible.", status=501)
 
     citas_qs = _filtrar_citas(fecha_inicial, fecha_final)
     citas_procesadas = _procesar_citas(citas_qs)
@@ -600,9 +692,10 @@ def generar_pdf_citas(fecha_inicial=None, fecha_final=None, formato='pdf'):
 
     try:
         html_string = render_to_string('reportes/reporte_citas_pdf.html', context)
+        pdf_file, error = _generar_pdf_desde_html(html_string, 'reporte_citas')
         
-        html_doc = HTML(string=html_string)
-        pdf_file = html_doc.write_pdf()
+        if error:
+            return HttpResponse(f"Error al generar PDF: {error}", status=500)
 
         response = HttpResponse(pdf_file, content_type='application/pdf')
         filename = f"reporte_citas_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf"
