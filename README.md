@@ -261,6 +261,54 @@ python manage.py runserver
    - Asignaciones de roles
    - Historial de acciones
 
+## 🧪 **Pruebas Unitarias**
+
+El proyecto incluye pruebas unitarias para garantizar la calidad del código y prevenir regresiones. Las pruebas están organizadas por aplicaciones de Django.
+
+### Ejecutar las pruebas
+
+Para ejecutar todas las pruebas del proyecto:
+
+```bash
+python manage.py test
+```
+
+Para ejecutar pruebas de una aplicación específica (ej: gestion_citas):
+
+```bash
+python manage.py test gestion_citas
+```
+
+Para obtener una salida más detallada:
+
+```bash
+python manage.py test gestion_citas -v 2
+```
+
+### Estructura de pruebas
+
+Las pruebas siguen la estructura estándar de Django:
+
+```
+gestion_citas/
+├── tests.py          # Pruebas unitarias
+└── ...
+```
+
+### Cobertura de pruebas
+
+Las pruebas cubren actualmente:
+
+- Modelos: Validación de datos, relaciones y métodos personalizados
+- Vistas: Comportamiento de las vistas con diferentes tipos de peticiones
+- Formularios: Validación de datos de entrada
+
+### Mejoras planificadas
+
+- Aumentar la cobertura de pruebas
+- Agregar pruebas de integración
+- Configurar integración continua (CI)
+
 ## 📱 **Funcionalidades Implementadas**
 
 ### ✅ **Módulos Completados**
