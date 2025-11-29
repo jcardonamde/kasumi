@@ -132,38 +132,122 @@ kasumi/
 │   ├── admin.py                    # Configuración Django Admin
 │   └── migrations/                 # Migraciones de BD
 │
+├── 📂 gestion_clientes/            # App de gestión de clientes
+│   ├── models.py                   # Modelo Cliente
+│   ├── views.py                    # Vistas CRUD de clientes
+│   ├── forms.py                    # Formularios de clientes
+│   ├── urls.py                     # URLs de clientes
+│   ├── admin.py                    # Configuración Django Admin
+│   └── migrations/                 # Migraciones de BD
+│
+├── 📂 gestion_servicios/           # App de gestión de servicios
+│   ├── models.py                   # Modelo Servicio
+│   ├── views.py                    # Vistas CRUD de servicios
+│   ├── forms.py                    # Formularios de servicios
+│   ├── urls.py                     # URLs de servicios
+│   ├── admin.py                    # Configuración Django Admin
+│   └── migrations/                 # Migraciones de BD
+│
+├── 📂 gestion_especialistas/       # App de gestión de especialistas
+│   ├── models.py                   # Modelo Especialista y Especialidad
+│   ├── views.py                    # Vistas CRUD de especialistas
+│   ├── forms.py                    # Formularios de especialistas
+│   ├── urls.py                     # URLs de especialistas
+│   ├── admin.py                    # Configuración Django Admin
+│   └── migrations/                 # Migraciones de BD
+│
+├── 📂 gestion_citas/               # App de gestión de citas
+│   ├── models.py                   # Modelo Cita
+│   ├── views.py                    # Vistas CRUD de citas
+│   ├── forms.py                    # Formularios de citas
+│   ├── urls.py                     # URLs de citas
+│   ├── admin.py                    # Configuración Django Admin
+│   ├── tests.py                    # Pruebas unitarias
+│   └── migrations/                 # Migraciones de BD
+│
+├── 📂 gestion_agenda/              # App de gestión de agenda y horarios
+│   ├── models.py                   # Modelo Horario
+│   ├── views.py                    # Vistas CRUD de horarios
+│   ├── forms.py                    # Formularios de agenda
+│   ├── urls.py                     # URLs de agenda
+│   ├── admin.py                    # Configuración Django Admin
+│   └── migrations/                 # Migraciones de BD
+│
+├── 📂 reportes/                    # App de reportes y estadísticas
+│   ├── models.py                   # Modelos de reportes
+│   ├── views.py                    # Vistas de generación de reportes
+│   ├── utils.py                    # Utilidades para generación de PDF
+│   ├── urls.py                     # URLs de reportes
+│   ├── admin.py                    # Configuración Django Admin
+│   └── migrations/                 # Migraciones de BD
+│
+├── 📂 configuraciones/             # App de configuración del sistema
+│   ├── views.py                    # Vistas de configuración
+│   ├── urls.py                     # URLs de configuración
+│   └── migrations/                 # Migraciones de BD
+│
 ├── 📂 templates/                   # Plantillas HTML
 │   ├── base.html                   # Template base con navbar y footer
 │   ├── base_login.html             # Template para páginas de auth
 │   ├── 📂 accounts/                # Templates de autenticación
-│   │   ├── login.html              # Página de login
-│   │   ├── perfil.html             # Mi Perfil
-│   │   └── cambiar_password.html  # Cambio de contraseña
 │   ├── 📂 core/                    # Templates principales
 │   │   └── home.html               # Dashboard principal
-│   └── 📂 gestion_usuarios/        # Templates de gestión
-│       ├── 📂 usuarios/            # CRUD de usuarios
-│       │   ├── lista_usuarios.html
-│       │   ├── crear_usuario.html
-│       │   ├── editar_usuario.html
-│       │   ├── detalle_usuario.html
-│       │   └── eliminar_usuario.html
-│       └── 📂 roles/               # CRUD de roles
-│           ├── lista_roles.html
-│           ├── crear_rol.html
-│           ├── editar_rol.html
-│           ├── detalle_rol.html
-│           └── asignar_rol.html
+│   ├── 📂 gestion_usuarios/        # Templates de gestión de usuarios
+│   │   ├── 📂 usuarios/            # CRUD de usuarios
+│   │   └── 📂 roles/               # CRUD de roles
+│   ├── 📂 gestion_clientes/        # Templates de clientes
+│   │   ├── lista_clientes.html
+│   │   ├── crear_cliente.html
+│   │   ├── editar_cliente.html
+│   │   └── eliminar_cliente.html
+│   ├── 📂 gestion_servicios/       # Templates de servicios
+│   │   ├── lista_servicios.html
+│   │   ├── crear_servicio.html
+│   │   ├── editar_servicio.html
+│   │   └── eliminar_servicio.html
+│   ├── 📂 gestion_especialistas/   # Templates de especialistas
+│   │   ├── lista_especialistas.html
+│   │   ├── crear_especialista.html
+│   │   ├── editar_especialista.html
+│   │   └── eliminar_especialista.html
+│   ├── 📂 gestion_citas/           # Templates de citas
+│   │   ├── lista_citas.html
+│   │   ├── crear_cita.html
+│   │   ├── editar_cita.html
+│   │   └── eliminar_cita.html
+│   ├── 📂 gestion_agenda/          # Templates de agenda
+│   │   ├── index_agenda.html
+│   │   ├── lista_horarios.html
+│   │   ├── crear_horario.html
+│   │   ├── editar_horario.html
+│   │   └── eliminar_horario.html
+│   ├── 📂 reportes/                # Templates de reportes
+│   │   ├── lista_reportes.html
+│   │   ├── reporte_base_pdf.html
+│   │   ├── reporte_usuarios_pdf.html
+│   │   ├── reporte_clientes_pdf.html
+│   │   ├── reporte_servicios_pdf.html
+│   │   ├── reporte_especialistas_pdf.html
+│   │   ├── reporte_citas_pdf.html
+│   │   └── reporte_agenda_pdf.html
+│   └── 📂 configuraciones/         # Templates de configuración
 │
 ├── 📂 static/                      # Archivos estáticos
-│   ├── 📂 css/                     # Estilos CSS
-│   │   ├── styles.css              # Estilos globales
+│   ├── 📂 css/                     # Estilos CSS globales
+│   ├── 📂 styles/                  # Estilos por módulo
 │   │   ├── login.css               # Estilos de login
-│   │   └── home.css                # Estilos del home
+│   │   ├── home.css                # Estilos del home
+│   │   ├── nav-bar.css             # Estilos de navegación
+│   │   ├── footer.css              # Estilos del footer
+│   │   ├── gestion-usuarios.css    # Estilos gestión usuarios
+│   │   ├── gestion-citas.css       # Estilos gestión citas
+│   │   ├── gestion-servicios.css   # Estilos gestión servicios
+│   │   ├── gestion-especialista.css # Estilos gestión especialistas
+│   │   ├── gestion-agenda.css      # Estilos gestión agenda
+│   │   ├── reportes.css            # Estilos de reportes
+│   │   └── configuraciones.css     # Estilos de configuración
 │   ├── 📂 js/                      # JavaScript
-│   │   └── login.js                # Funcionalidad de login
 │   └── 📂 imgs/                    # Imágenes y logos
-│       └── logo_kasumi.png
 │
 ├── 📂 docs/                        # Documentación del proyecto
 │   ├── ACTIVACION_MODULO_ROLES.md
@@ -338,6 +422,56 @@ Las pruebas cubren actualmente:
 - [x] Vista de usuarios por rol
 - [x] Estados activo/inactivo
 
+#### **Gestión de Clientes**
+- [x] CRUD completo de clientes
+- [x] Modelo de cliente con datos personales
+- [x] Lista con búsqueda y filtros
+- [x] Validación de formularios
+- [x] Panel de administración configurado
+
+#### **Gestión de Servicios**
+- [x] CRUD completo de servicios
+- [x] Modelo de servicio (nombre, descripción, precio, duración)
+- [x] Lista con búsqueda y filtros
+- [x] Panel de administración configurado
+
+#### **Gestión de Especialistas**
+- [x] CRUD completo de especialistas
+- [x] Modelo de especialista y especialidades
+- [x] Asignación de servicios a especialistas
+- [x] Lista con búsqueda y filtros
+- [x] Panel de administración configurado
+
+#### **Gestión de Citas**
+- [x] CRUD completo de citas
+- [x] Modelo de cita (cliente, servicio, especialista, fecha, hora)
+- [x] Lista con búsqueda y filtros
+- [x] Validación de disponibilidad
+- [x] Pruebas unitarias implementadas
+- [x] Panel de administración configurado
+
+#### **Gestión de Agenda y Horarios**
+- [x] CRUD completo de horarios
+- [x] Modelo de horarios por especialista
+- [x] Vista de índice de agenda
+- [x] Lista de horarios disponibles
+- [x] Panel de administración configurado
+
+#### **Reportes y Estadísticas**
+- [x] Dashboard de reportes
+- [x] Generación de reportes en PDF
+- [x] Reporte de usuarios
+- [x] Reporte de clientes
+- [x] Reporte de servicios
+- [x] Reporte de especialistas
+- [x] Reporte de citas
+- [x] Reporte de agenda
+- [x] Utilidades de generación de PDF
+
+#### **Configuraciones del Sistema**
+- [x] Módulo de configuraciones
+- [x] Vista de configuración del sistema
+
 #### **Interfaz de Usuario**
 - [x] Diseño responsive con Bootstrap 5
 - [x] Navbar con menú desplegable
@@ -346,6 +480,7 @@ Las pruebas cubren actualmente:
 - [x] Modales elegantes
 - [x] Iconografía con Font Awesome
 - [x] Animaciones CSS suaves
+- [x] Estilos modulares por sección
 
 #### **Panel de Administración**
 - [x] Django Admin configurado
@@ -361,22 +496,15 @@ Las pruebas cubren actualmente:
 - [x] Estructura del proyecto documentada
 
 ### 🔄 **En Desarrollo**
-- [ ] Gestión de servicios
-- [ ] Gestión de citas y agenda
-- [ ] Gestión de clientes
-- [ ] Reportes y estadísticas
-- [ ] Dashboard con métricas
+- [ ] Dashboard con métricas y gráficos
 - [ ] API REST
 - [ ] Notificaciones en tiempo real
 
 ### 🎯 **Próximas Funcionalidades**
-- [ ] Módulo de servicios (spa, belleza, etc.)
-- [ ] Calendario de citas
-- [ ] Gestión de especialistas
-- [ ] Sistema de reportes
-- [ ] Exportación de datos (PDF, Excel)
+- [ ] Calendario visual de citas
 - [ ] Notificaciones por email
 - [ ] Logs de auditoría avanzados
+- [ ] Exportación de datos a Excel
 
 ## 🔒 **Seguridad**
 
